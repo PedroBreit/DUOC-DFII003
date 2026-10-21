@@ -1,77 +1,128 @@
-# SuperMarket - Gestion de Inventario
+# SuperMarket - Sistema de Gestión de Inventario
 
-Proyecto académico para **Desarrollo Frontend II (PFY2202), Semana 1, Evaluación Formativa 1, Forma B**.
+**Asignatura:** Desarrollo Frontend II (PFY2202)  
+**Actividad:** Evaluación Formativa 1 - Semana 1  
+**Institución:** Duoc UC  
+**Estudiante:** Pedro Breit  
+**Año:** 2026
 
-## Objetivo
+---
 
-Desarrollar un sitio web de supermercado utilizando **React, HTML, JavaScript y CSS**, con una página de inicio y dos pantallas adicionales accesibles desde un **menú inferior** mediante **React Router**.
+## 1. Descripción del proyecto
 
-## Páginas y rutas
+SuperMarket es una aplicación web de gestión de inventario para un supermercado, desarrollada con React, JavaScript, HTML y CSS.
 
-| Ruta | Componente | Descripción |
-| --- | --- | --- |
-| `/` | `Home` | Panel e inventario demostrativo |
-| `/quienes-somos` | `About` | Información del supermercado |
-| `/contactanos` | `Contact` | Formulario de contacto demostrativo |
-| Cualquier otra | `NotFound` | Página no encontrada |
+Permite consultar productos, gestionar existencias y navegar entre diferentes secciones mediante React Router, utilizando una arquitectura de aplicación de página única (SPA).
 
-## Requisitos previos
+## 2. Requerimientos implementados
 
-- Node.js (versión compatible con Vite 6, por ejemplo Node 20.19+ o 22.12+).
-- npm.
+| N.º | Requerimiento | Implementación |
+|---|---|---|
+| 1 | Desarrollar un sitio web de gestión de inventario para un supermercado. | Aplicación SuperMarket con catálogo y control de existencias. |
+| 2 | Utilizar HTML, JavaScript, CSS y React. | Desarrollo basado en componentes React, JSX, JavaScript y CSS. |
+| 3 | Incorporar una página principal (Home). | Panel de inventario con productos, categorías, precios y cantidades disponibles. |
+| 4 | Implementar un menú inferior de navegación. | Menú con enlaces a las diferentes secciones de la aplicación. |
+| 5 | Desarrollar al menos dos páginas adicionales de los temas indicados. | Secciones Quiénes somos, Contáctanos y Preguntas frecuentes. |
+| 6 | Implementar y configurar React Router. | Navegación entre componentes mediante rutas, sin recargas completas. |
+| 7 | Gestionar el código fuente mediante Git y GitHub. | Repositorio con control de versiones y organización por semana. |
 
-## Ejecución local
+## 3. Funcionalidades
 
-1. Abre una terminal en esta carpeta.
-2. Ejecuta `npm install`.
-3. Ejecuta `npm run dev`.
-4. Abre la URL que muestra Vite en la terminal (usualmente `http://localhost:5173`).
-5. Para verificar la compilación: `npm run build`.
+- Visualización del inventario de productos.
+- Búsqueda y filtrado por categoría.
+- Consulta de precios y cantidades disponibles.
+- Incremento y disminución de existencias.
+- Identificación de productos con stock bajo.
+- Restauración de cantidades iniciales.
+- Persistencia de datos mediante LocalStorage.
+- Navegación entre las secciones de la aplicación.
+- Formulario de contacto con validación.
+- Preguntas frecuentes con respuestas desplegables.
 
-## Tecnologías
+## 4. Tecnologías utilizadas
 
-- React 18.
-- React Router DOM 6 (`BrowserRouter`, `Routes`, `Route`, `NavLink`, `Link`).
-- Vite como herramienta de desarrollo (alternativa moderna a Create React App, que aparece en la guía del curso).
-- CSS adaptable a móvil.
+| Tecnología | Propósito |
+|---|---|
+| HTML5 | Estructura del documento. |
+| CSS3 | Presentación visual y diseño adaptable. |
+| JavaScript | Lógica e interactividad. |
+| React | Desarrollo de componentes de interfaz. |
+| React Router | Navegación entre las vistas. |
+| Vite | Entorno de desarrollo y compilación. |
+| LocalStorage | Persistencia local del inventario. |
+| Git y GitHub | Control de versiones y repositorio remoto. |
+| GitHub Pages | Publicación web. |
 
-## Funcionalidad complementaria
+## 5. Estructura del proyecto
 
-El Home muestra datos de ejemplo, permite buscar y filtrar productos, ajustar unidades y restaurar existencias. Los cambios se guardan solo en `localStorage` del navegador. **No hay backend ni base de datos**. El formulario valida los datos, pero **no envía información a ningún servicio**.
-
-## Publicación en GitHub
-
-Según la actividad, el repositorio debe llamarse:
-
-`supermercado-nombre-apellido-siglaCurso`
-
-Reemplaza los campos por tus datos. Ejemplo ilustrativo:
-
-`supermercado-ana-perez-pfy2202`
-
-Desde la carpeta del proyecto:
-
-```bash
-git init
-git add .
-git commit -m "Actividad formativa 1: supermercado React Router"
-git branch -M main
-git remote add origin https://github.com/TU-USUARIO/NOMBRE-DEL-REPOSITORIO.git
-git push -u origin main
+```text
+supermercado-frontend-ii/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── App.jsx
+│   ├── FAQ.jsx
+│   ├── main.jsx
+│   └── styles.css
+├── index.html
+├── package.json
+├── package-lock.json
+├── vite.config.js
+├── .gitignore
+└── README.md
 ```
 
-Crea primero un repositorio **vacío** en tu cuenta de GitHub. Reemplaza el usuario y el nombre del repositorio en la URL. Comparte con tu docente el enlace real del repositorio.
+## 6. Instalación y ejecución
 
-## Lista de verificación para la pauta
+**Requisitos:** Node.js y npm.
 
-- [ ] Página de inicio del supermercado.
-- [ ] Dos páginas adicionales: Quiénes somos y Contáctanos.
-- [ ] Menú inferior visible para navegar entre las tres páginas.
-- [ ] React Router instalado y configurado.
-- [ ] Las rutas funcionan sin recarga completa.
-- [ ] Diseño con HTML (JSX), CSS, JavaScript y React.
-- [ ] Proyecto ejecuta sin errores y compila.
-- [ ] Código publicado en GitHub con el nombre solicitado.
-- [ ] URL del repositorio compartida con el docente.
+Clonar el repositorio:
 
-**Nota:** La pauta tiene dos criterios, cada uno de 50 puntos. La evaluación definitiva corresponde al docente.
+```bash
+git clone https://github.com/PedroBreit/DUOC-DFII003.git
+```
+
+Acceder al directorio:
+
+```bash
+cd "DUOC-DFII003/Semana 1/supermercado-frontend-ii"
+```
+
+Instalar dependencias:
+
+```bash
+npm install
+```
+
+Iniciar el servidor de desarrollo:
+
+```bash
+npm run dev
+```
+
+Generar la compilación de producción:
+
+```bash
+npm run build
+```
+
+## 7. Enlaces
+
+**Repositorio:**  
+https://github.com/PedroBreit/DUOC-DFII003
+
+**Aplicación web - Semana 1:**  
+https://pedrobreit.github.io/DUOC-DFII003/semana-01/
+
+## 8. Consideraciones técnicas
+
+El inventario utiliza datos precargados y almacena las modificaciones en LocalStorage. No dispone de integración con una base de datos.
+
+El formulario de contacto incorpora validación de campos, sin implementar el envío de información a un servidor.
+
+La aplicación utiliza React Router para gestionar la navegación entre las distintas vistas.
+
+---
+
+**Pedro Breit**  
+Desarrollo Frontend II - Duoc UC

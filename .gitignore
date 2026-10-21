@@ -1,0 +1,14 @@
+﻿node_modules/
+dist/
+build/
+publicacion/
+.cache-gh-pages/
+.cache/
+.env
+.env.*
+!.env.example
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

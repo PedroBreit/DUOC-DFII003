@@ -1,4 +1,27 @@
+
+# Dependencias
 node_modules/
+
+# Archivos compilados
 dist/
+build/
+
+# Variables de entorno
 .env
+.env.local
+.env.production.local
+
+# Registros
+*.log
+
+# Caché
+.cache/
+.vite/
+
+# Sistema operativo
 .DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
