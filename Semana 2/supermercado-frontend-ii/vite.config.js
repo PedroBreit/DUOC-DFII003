@@ -8,5 +8,5 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
-  base: '/DUOC-DFII003/semana-01/'
+  base: '/DUOC-DFII003/semana-02/'
 });
