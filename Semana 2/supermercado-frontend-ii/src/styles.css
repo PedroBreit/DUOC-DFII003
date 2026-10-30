@@ -716,3 +716,72 @@ tbody tr:hover {
     padding-bottom: 115px;
   }
 }
+
+
+/* ========================================
+   SEMANA 2 - ADMINISTRACION DE INVENTARIO
+======================================== */
+
+.inventory-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 0;
+}
+
+.inventory-heading h1 {
+  margin: 10px 0;
+  font-size: clamp(30px, 4vw, 43px);
+  letter-spacing: -1.2px;
+  color: var(--heading);
+}
+
+.inventory-heading p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Boton circular de agregar producto */
+
+.add-product-button {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1;
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.add-product-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.add-product-button:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 4px;
+}
+/* Ajustes de dispositivos pequenos */
+
+@media (max-width: 640px) {
+  .inventory-heading {
+    align-items: flex-start;
+  }
+
+  .add-product-button {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    font-size: 30px;
+  }
+}
