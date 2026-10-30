@@ -1,128 +1,210 @@
-# SuperMarket - Sistema de Gestión de Inventario
+
+# SuperMarket - Desarrollo Frontend II
+
+## Información del proyecto
 
 **Asignatura:** Desarrollo Frontend II (PFY2202)  
-**Actividad:** Evaluación Formativa 1 - Semana 1  
 **Institución:** Duoc UC  
+**Actividad:** Evaluación Formativa 2 - Semana 2  
 **Estudiante:** Pedro Breit  
 **Año:** 2026
 
----
+## Descripción
 
-## 1. Descripción del proyecto
+SuperMarket es una aplicación web desarrollada con React para
+gestionar el inventario y simular las compras de un supermercado.
 
-SuperMarket es una aplicación web de gestión de inventario para un supermercado, desarrollada con React, JavaScript, HTML y CSS.
+El sistema permite consultar productos, seleccionar artículos
+en un carrito de compras, registrar nuevos productos y
+administrar las existencias disponibles.
 
-Permite consultar productos, gestionar existencias y navegar entre diferentes secciones mediante React Router, utilizando una arquitectura de aplicación de página única (SPA).
+La aplicación utiliza un estado global compartido entre las
+distintas páginas y almacenamiento local para conservar los datos.
 
-## 2. Requerimientos implementados
+## Funcionalidades
 
-| N.º | Requerimiento | Implementación |
-|---|---|---|
-| 1 | Desarrollar un sitio web de gestión de inventario para un supermercado. | Aplicación SuperMarket con catálogo y control de existencias. |
-| 2 | Utilizar HTML, JavaScript, CSS y React. | Desarrollo basado en componentes React, JSX, JavaScript y CSS. |
-| 3 | Incorporar una página principal (Home). | Panel de inventario con productos, categorías, precios y cantidades disponibles. |
-| 4 | Implementar un menú inferior de navegación. | Menú con enlaces a las diferentes secciones de la aplicación. |
-| 5 | Desarrollar al menos dos páginas adicionales de los temas indicados. | Secciones Quiénes somos, Contáctanos y Preguntas frecuentes. |
-| 6 | Implementar y configurar React Router. | Navegación entre componentes mediante rutas, sin recargas completas. |
-| 7 | Gestionar el código fuente mediante Git y GitHub. | Repositorio con control de versiones y organización por semana. |
+### Inicio: catálogo y carrito
 
-## 3. Funcionalidades
+- Visualización del catálogo de productos.
+- Búsqueda por nombre, marca, tipo y categoría.
+- Filtrado de productos por categoría.
+- Catálogo organizado en dos columnas.
+- Desplazamiento interno del catálogo.
+- Selección de cantidades mediante botones + y -.
+- Validación de cantidades según el stock disponible.
+- Cálculo automático del total de la compra.
+- Confirmación de compras.
+- Descuento de existencias al completar una compra.
+- Opción para vaciar el carrito.
 
-- Visualización del inventario de productos.
+### Inventario
+
+- Tabla con los productos registrados.
+- Visualización de precios y cantidades.
 - Búsqueda y filtrado por categoría.
-- Consulta de precios y cantidades disponibles.
-- Incremento y disminución de existencias.
-- Identificación de productos con stock bajo.
-- Restauración de cantidades iniciales.
-- Persistencia de datos mediante LocalStorage.
-- Navegación entre las secciones de la aplicación.
-- Formulario de contacto con validación.
-- Preguntas frecuentes con respuestas desplegables.
+- Indicadores de productos registrados, stock bajo y agotados.
+- Incremento y disminución manual de existencias.
+- Restauración del inventario inicial.
+- Acceso al registro de nuevos productos.
 
-## 4. Tecnologías utilizadas
+### Agregar producto
 
-| Tecnología | Propósito |
+Formulario de registro con los siguientes campos:
+
+- Nombre del producto.
+- Marca.
+- Tipo de producto.
+- Categoría.
+- Precio en pesos chilenos.
+- Stock inicial.
+
+El formulario incorpora validaciones y registra los productos
+en el estado global de la aplicación.
+
+### Páginas adicionales
+
+- Contacto.
+- Nosotros.
+- Ayuda y preguntas frecuentes.
+- Página de error para rutas no encontradas.
+
+## Tecnologías utilizadas
+
+| Tecnología | Uso |
 |---|---|
-| HTML5 | Estructura del documento. |
-| CSS3 | Presentación visual y diseño adaptable. |
-| JavaScript | Lógica e interactividad. |
-| React | Desarrollo de componentes de interfaz. |
-| React Router | Navegación entre las vistas. |
-| Vite | Entorno de desarrollo y compilación. |
-| LocalStorage | Persistencia local del inventario. |
-| Git y GitHub | Control de versiones y repositorio remoto. |
-| GitHub Pages | Publicación web. |
+| React | Desarrollo de interfaces mediante componentes |
+| JavaScript | Lógica de la aplicación |
+| React Router | Navegación entre páginas |
+| Context API | Estado global del inventario |
+| useReducer | Gestión de acciones sobre los productos |
+| useState | Estados locales y formularios |
+| Tailwind CSS | Utilidades de diseño y estilos |
+| CSS3 | Estilos personalizados y diseño adaptable |
+| Vite | Desarrollo y compilación |
+| localStorage | Persistencia de productos y existencias |
+| Git y GitHub | Control de versiones |
 
-## 5. Estructura del proyecto
+## Estructura del proyecto
 
 ```text
-supermercado-frontend-ii/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── App.jsx
-│   ├── FAQ.jsx
-│   ├── main.jsx
-│   └── styles.css
-├── index.html
-├── package.json
-├── package-lock.json
-├── vite.config.js
-├── .gitignore
-└── README.md
+Semana 2/
+├── README.md
+└── supermercado-frontend-ii/
+    ├── src/
+    │   ├── components/
+    │   │   └── Navbar.jsx
+    │   ├── context/
+    │   │   └── InventarioContext.jsx
+    │   ├── data/
+    │   │   └── initialProducts.js
+    │   ├── pages/
+    │   │   ├── About.jsx
+    │   │   ├── AgregarProducto.jsx
+    │   │   ├── AgregarProducto.css
+    │   │   ├── Contact.jsx
+    │   │   ├── Home.jsx
+    │   │   ├── Home.css
+    │   │   ├── Inventario.jsx
+    │   │   ├── Inventario.css
+    │   │   └── NotFound.jsx
+    │   ├── services/
+    │   │   └── inventarioStorage.js
+    │   ├── App.jsx
+    │   ├── FAQ.jsx
+    │   ├── main.jsx
+    │   ├── styles.css
+    │   └── tailwind.css
+    ├── index.html
+    ├── package.json
+    ├── package-lock.json
+    └── vite.config.js
 ```
 
-## 6. Instalación y ejecución
+## Instalación y ejecución
 
-**Requisitos:** Node.js y npm.
+### Requisitos
 
-Clonar el repositorio:
+- Node.js
+- npm
+
+### Clonar el repositorio
 
 ```bash
 git clone https://github.com/PedroBreit/DUOC-DFII003.git
 ```
 
-Acceder al directorio:
+### Abrir el proyecto
 
 ```bash
-cd "DUOC-DFII003/Semana 1/supermercado-frontend-ii"
+cd "DUOC-DFII003/Semana 2/supermercado-frontend-ii"
 ```
 
-Instalar dependencias:
+### Instalar dependencias
 
 ```bash
 npm install
 ```
 
-Iniciar el servidor de desarrollo:
+### Iniciar el entorno de desarrollo
 
 ```bash
 npm run dev
 ```
 
-Generar la compilación de producción:
+### Generar una compilación de producción
 
 ```bash
 npm run build
 ```
 
-## 7. Enlaces
+### Previsualizar la compilación
 
-**Repositorio:**  
+```bash
+npm run preview
+```
+
+## Gestión del estado
+
+La aplicación utiliza Context API y useReducer para compartir
+el inventario entre las distintas páginas.
+
+Las operaciones principales permiten:
+
+- Registrar nuevos productos.
+- Modificar existencias.
+- Validar compras.
+- Descontar cantidades compradas.
+- Restaurar el inventario inicial.
+
+El carrito utiliza un estado local y comparte la información
+de productos con el inventario global.
+
+## Persistencia de datos
+
+El inventario se guarda mediante localStorage.
+
+Los cambios se conservan al recargar la aplicación en el
+mismo navegador.
+
+La aplicación no utiliza una base de datos externa ni
+requiere autenticación.
+
+## Consideraciones
+
+- Las compras son simuladas y no procesan pagos reales.
+- El carrito no representa una transacción comercial real.
+- El formulario de contacto valida los campos, pero no
+  envía mensajes a un servidor.
+- El almacenamiento es local al navegador del usuario.
+- La restauración del inventario reemplaza los datos
+  actuales por los productos iniciales.
+
+## Repositorio
+
 https://github.com/PedroBreit/DUOC-DFII003
-
-**Aplicación web - Semana 1:**  
-https://pedrobreit.github.io/DUOC-DFII003/semana-01/
-
-## 8. Consideraciones técnicas
-
-El inventario utiliza datos precargados y almacena las modificaciones en LocalStorage. No dispone de integración con una base de datos.
-
-El formulario de contacto incorpora validación de campos, sin implementar el envío de información a un servidor.
-
-La aplicación utiliza React Router para gestionar la navegación entre las distintas vistas.
 
 ---
 
 **Pedro Breit**  
-Desarrollo Frontend II - Duoc UC
+Desarrollo Frontend II - Duoc UC  
+2026
