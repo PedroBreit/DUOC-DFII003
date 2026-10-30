@@ -1,4 +1,6 @@
 
+/* VARIABLES GLOBALES */
+
 :root {
   font-family: Inter, "Segoe UI", Arial, sans-serif;
   color: #17263c;
@@ -16,6 +18,8 @@
   --shadow: 0 8px 28px rgba(15, 23, 42, 0.045);
 }
 
+/* ESTILOS BASE */
+
 * {
   box-sizing: border-box;
 }
@@ -26,7 +30,10 @@ body {
   color: var(--heading);
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font: inherit;
 }
 
@@ -48,7 +55,7 @@ a {
   margin: auto;
 }
 
-/* HEADER */
+/* ENCABEZADO */
 
 .topbar {
   position: sticky;
@@ -108,7 +115,7 @@ a {
   padding-bottom: 45px;
 }
 
-/* HERO */
+/* PRESENTACION PRINCIPAL */
 
 .hero {
   min-height: 205px;
@@ -159,7 +166,7 @@ a {
   flex-shrink: 0;
 }
 
-/* ESTADÍSTICAS */
+/* ESTADISTICAS */
 
 .stats {
   display: grid;
@@ -210,7 +217,7 @@ a {
   color: var(--heading);
 }
 
-/* PANELES */
+/* PANELES Y BOTONES */
 
 .panel,
 .content-page {
@@ -265,7 +272,7 @@ a {
   background: var(--primary-dark);
 }
 
-/* BÚSQUEDA */
+/* BUSQUEDA Y FILTROS */
 
 .filters {
   display: flex;
@@ -302,7 +309,7 @@ a {
   min-width: 200px;
 }
 
-/* TABLA */
+/* TABLA DE INVENTARIO */
 
 .table-wrap {
   overflow-x: auto;
@@ -323,7 +330,8 @@ th {
   letter-spacing: 0.5px;
 }
 
-th, td {
+th,
+td {
   padding: 16px 12px;
   border-bottom: 1px solid #e2e8f0;
   white-space: nowrap;
@@ -338,7 +346,7 @@ tbody tr:hover {
   font-weight: 700;
 }
 
-/* ESTADOS */
+/* ESTADOS DE PRODUCTOS */
 
 .status {
   display: inline-block;
@@ -358,7 +366,7 @@ tbody tr:hover {
   background: #ffedd5;
 }
 
-/* CONTROL DE STOCK */
+/* CONTROLES DE CANTIDAD */
 
 .quantity {
   display: flex;
@@ -390,7 +398,7 @@ tbody tr:hover {
   text-align: center;
 }
 
-/* PÁGINAS */
+/* PAGINAS GENERALES */
 
 .content-page {
   padding: 50px;
@@ -504,7 +512,7 @@ tbody tr:hover {
   color: var(--heading);
 }
 
-/* FAQ */
+/* PREGUNTAS FRECUENTES */
 
 .faq-list {
   display: flex;
@@ -571,7 +579,7 @@ tbody tr:hover {
   margin: 0;
 }
 
-/* NAVEGACIÓN INFERIOR */
+/* NAVEGACION INFERIOR */
 
 .bottom-nav {
   position: fixed;
@@ -623,7 +631,7 @@ tbody tr:hover {
   background: #f1f5f9;
 }
 
-/* OTROS */
+/* ELEMENTOS AUXILIARES */
 
 .footer {
   color: #94a3b8;
@@ -662,7 +670,7 @@ tbody tr:hover {
   border: 0;
 }
 
-/* RESPONSIVE */
+/* DISEÑO ADAPTABLE */
 
 @media (max-width: 800px) {
   .stats,
@@ -714,74 +722,5 @@ tbody tr:hover {
 
   .footer {
     padding-bottom: 115px;
-  }
-}
-
-
-/* ========================================
-   SEMANA 2 - ADMINISTRACION DE INVENTARIO
-======================================== */
-
-.inventory-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  padding: 8px 0;
-}
-
-.inventory-heading h1 {
-  margin: 10px 0;
-  font-size: clamp(30px, 4vw, 43px);
-  letter-spacing: -1.2px;
-  color: var(--heading);
-}
-
-.inventory-heading p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-/* Boton circular de agregar producto */
-
-.add-product-button {
-  width: 52px;
-  height: 52px;
-  min-width: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--primary);
-  color: #ffffff;
-  font-size: 34px;
-  font-weight: 400;
-  line-height: 1;
-  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
-  transition: background 0.2s, transform 0.2s;
-}
-
-.add-product-button:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-.add-product-button:focus-visible {
-  outline: 3px solid var(--primary);
-  outline-offset: 4px;
-}
-/* Ajustes de dispositivos pequenos */
-
-@media (max-width: 640px) {
-  .inventory-heading {
-    align-items: flex-start;
-  }
-
-  .add-product-button {
-    width: 46px;
-    height: 46px;
-    min-width: 46px;
-    font-size: 30px;
   }
 }
