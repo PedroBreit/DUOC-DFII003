@@ -1,0 +1,87 @@
+
+/* ========================================
+   SUPERMARKET - INVENTARIO
+   Estilos exclusivos de la pagina
+======================================== */
+
+/* Titulo y boton agregar */
+
+.inventory-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.inventory-title-row h1 {
+  margin: 0;
+  color: var(--heading);
+  font-size: clamp(30px, 4vw, 43px);
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1.2;
+}
+
+/* Boton circular + */
+
+.inventory-add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+
+  border: none;
+  border-radius: 50%;
+
+  background-color: var(--primary);
+  color: #ffffff;
+
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+
+  text-decoration: none;
+
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.18);
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inventory-add-button:hover {
+  background-color: var(--primary-dark);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+}
+
+.inventory-add-button:active {
+  transform: translateY(0);
+}
+
+.inventory-add-button:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 4px;
+}
+
+/* Adaptacion a pantallas pequenas */
+
+@media (max-width: 640px) {
+  .inventory-title-row {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .inventory-add-button {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 27px;
+  }
+}

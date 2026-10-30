@@ -2,6 +2,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useInventario } from '../context/InventarioContext.jsx';
+import './Inventario.css';
 
 const CLP = new Intl.NumberFormat('es-CL', {
   style: 'currency',
@@ -10,18 +11,21 @@ const CLP = new Intl.NumberFormat('es-CL', {
 });
 
 export default function Inventario() {
-  const { products, notice, changeStock, reset } = useInventario();
+  const {
+    products,
+    notice,
+    changeStock,
+    reset
+  } = useInventario();
 
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('Todas');
 
-  // Categorias disponibles.
   const categories = useMemo(
     () => [...new Set(products.map((p) => p.categoria))],
     [products]
   );
 
-  // Indicadores generales.
   const lowStock = products.filter(
     (p) => p.stock > 0 && p.stock < 10
   ).length;
@@ -30,7 +34,6 @@ export default function Inventario() {
     (p) => p.stock === 0
   ).length;
 
-  // Filtrar sin modificar el inventario original.
   const filtered = useMemo(() => {
     return products.filter((p) => {
       const matchesCategory =
@@ -46,33 +49,24 @@ export default function Inventario() {
   }, [products, search, category]);
 
   function handleReset() {
-    if (window.confirm(
+    const confirmed = window.confirm(
       '¿Restaurar el inventario inicial? Se perderán los cambios realizados.'
-    )) {
+    );
+
+    if (confirmed) {
       reset();
     }
   }
 
   return (
     <>
-      <section className="inventory-heading">
-        <div>
-          <span className="eyebrow">
-            ADMINISTRACIÓN
-          </span>
+      {/* Titulo y boton para agregar productos */}
+      <section className="inventory-title-row">
+        <h1>Inventario</h1>
 
-          <h1>Inventario</h1>
-
-          <p>
-            Administra los productos y controla
-            las existencias de SuperMarket.
-          </p>
-        </div>
-
-        {/* Acceso al formulario de nuevos productos */}
         <Link
           to="/agregar-producto"
-          className="add-product-button"
+          className="inventory-add-button"
           aria-label="Agregar nuevo producto"
           title="Agregar producto"
         >
@@ -80,39 +74,56 @@ export default function Inventario() {
         </Link>
       </section>
 
-      {/* Indicadores del inventario */}
-      <section className="stats" aria-label="Resumen del inventario">
+      {/* Resumen del inventario */}
+      <section
+        className="stats"
+        aria-label="Resumen del inventario"
+      >
         <div className="stat">
-          <div className="stat-icon" aria-hidden="true">
+          <div
+            className="stat-icon"
+            aria-hidden="true"
+          >
             ▦
           </div>
+
           <span>Productos registrados</span>
           <strong>{products.length}</strong>
         </div>
 
         <div className="stat">
-          <div className="stat-icon warning" aria-hidden="true">
+          <div
+            className="stat-icon warning"
+            aria-hidden="true"
+          >
             !
           </div>
+
           <span>Stock bajo</span>
           <strong>{lowStock}</strong>
         </div>
 
         <div className="stat">
-          <div className="stat-icon" aria-hidden="true">
+          <div
+            className="stat-icon"
+            aria-hidden="true"
+          >
             ◫
           </div>
+
           <span>Productos agotados</span>
           <strong>{outOfStock}</strong>
         </div>
       </section>
 
+      {/* Administración de productos */}
       <section className="panel">
         <div className="panel-header">
           <div>
             <span className="eyebrow">
               CONTROL DE EXISTENCIAS
             </span>
+
             <h2>Productos registrados</h2>
           </div>
 
@@ -125,16 +136,19 @@ export default function Inventario() {
           </button>
         </div>
 
-        {/* Busqueda y categorias */}
+        {/* Busqueda y filtro */}
         <div className="filters">
           <label className="search-field">
             <span className="sr-only">
               Buscar producto
             </span>
+
             <input
               type="search"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
               placeholder="Buscar producto..."
             />
           </label>
@@ -143,9 +157,12 @@ export default function Inventario() {
             <span className="sr-only">
               Filtrar por categoría
             </span>
+
             <select
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) =>
+                setCategory(e.target.value)
+              }
             >
               <option value="Todas">
                 Todas las categorías
@@ -166,7 +183,7 @@ export default function Inventario() {
           </p>
         )}
 
-        {/* Tabla administrativa */}
+        {/* Tabla de inventario */}
         <div className="table-wrap">
           <table>
             <thead>
@@ -209,8 +226,12 @@ export default function Inventario() {
                       <button
                         type="button"
                         disabled={p.stock === 0}
-                        aria-label={`Reducir stock de ${p.nombre}`}
-                        onClick={() => changeStock(p.id, -1)}
+                        aria-label={
+                          `Reducir stock de ${p.nombre}`
+                        }
+                        onClick={() =>
+                          changeStock(p.id, -1)
+                        }
                       >
                         −
                       </button>
@@ -219,8 +240,12 @@ export default function Inventario() {
 
                       <button
                         type="button"
-                        aria-label={`Aumentar stock de ${p.nombre}`}
-                        onClick={() => changeStock(p.id, 1)}
+                        aria-label={
+                          `Aumentar stock de ${p.nombre}`
+                        }
+                        onClick={() =>
+                          changeStock(p.id, 1)
+                        }
                       >
                         +
                       </button>
