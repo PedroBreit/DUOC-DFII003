@@ -1,5 +1,7 @@
-import React, { useMemo, useState } from 'react';
+
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useInventario } from '../context/InventarioContext.jsx';
+import './Home.css';
 
 const CLP = new Intl.NumberFormat('es-CL', {
   style: 'currency',
@@ -7,190 +9,372 @@ const CLP = new Intl.NumberFormat('es-CL', {
   maximumFractionDigits: 0
 });
 
-function Home() {
-  const { products, notice, changeStock, reset } = useInventario();
+export default function Home() {
+  const {
+    products,
+    purchase,
+    purchaseResult
+  } = useInventario();
+
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('Todas');
+  const [cart, setCart] = useState({});
+  const [pending, setPending] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const categories = [
-    ...new Set(products.map((p) => p.categoria))
-  ];
+  const pendingId = useRef(null);
 
-  const lowStock = products.filter(
-    (p) => p.stock < 10
-  ).length;
+  const categories = useMemo(
+    () => [...new Set(products.map((p) => p.categoria))],
+    [products]
+  );
 
-  const filtered = useMemo(() => {
-    return products.filter((p) => {
+  const availableProducts = useMemo(() => {
+    return products.filter((product) => {
       const matchesCategory =
         category === 'Todas' ||
-        p.categoria === category;
+        product.categoria === category;
 
-      const matchesSearch = p.nombre
-        .toLocaleLowerCase('es')
-        .includes(search.toLocaleLowerCase('es'));
+      const query = search.trim().toLocaleLowerCase('es');
 
-      return matchesCategory && matchesSearch;
+      const searchable = [
+        product.nombre,
+        product.marca,
+        product.tipo,
+        product.categoria
+      ]
+        .join(' ')
+        .toLocaleLowerCase('es');
+
+      return (
+        matchesCategory &&
+        searchable.includes(query)
+      );
     });
   }, [products, search, category]);
+
+  const cartProducts = useMemo(() => {
+    return products
+      .map((product) => ({
+        ...product,
+        quantity: Math.min(
+          cart[product.id] || 0,
+          product.stock
+        )
+      }))
+      .filter((product) => product.quantity > 0);
+  }, [products, cart]);
+
+  const itemCount = cartProducts.reduce(
+    (total, product) => total + product.quantity,
+    0
+  );
+
+  const total = cartProducts.reduce(
+    (sum, product) =>
+      sum + product.precio * product.quantity,
+    0
+  );
+
+  function changeQuantity(product, amount) {
+    if (pending) {
+      return;
+    }
+
+    setMessage('');
+
+    setCart((current) => {
+      const previous = Math.min(
+        current[product.id] || 0,
+        product.stock
+      );
+
+      const next = Math.max(
+        0,
+        Math.min(product.stock, previous + amount)
+      );
+
+      return {
+        ...current,
+        [product.id]: next
+      };
+    });
+  }
+
+  function clearCart() {
+    if (pending) {
+      return;
+    }
+
+    setCart({});
+    setMessage('');
+  }
+
+  function handlePurchase() {
+    if (pending || cartProducts.length === 0) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `¿Confirmar la compra de ${itemCount} unidad(es) por ${CLP.format(total)}?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const items = cartProducts.map((product) => ({
+      id: product.id,
+      quantity: product.quantity
+    }));
+
+    setMessage('');
+    setPending(true);
+
+    pendingId.current = purchase(items);
+  }
+
+  // Esperar el resultado del reducer antes de vaciar el carrito.
+  useEffect(() => {
+    if (
+      pendingId.current === null ||
+      purchaseResult?.id !== pendingId.current
+    ) {
+      return;
+    }
+
+    if (purchaseResult.success) {
+      setCart({});
+    }
+
+    setMessage(purchaseResult.message);
+    setPending(false);
+    pendingId.current = null;
+  }, [purchaseResult]);
 
   return (
     <>
       <section className="hero">
         <div>
-          <span className="eyebrow">PANEL PRINCIPAL</span>
-          <h1>Gestión de inventario</h1>
+          <span className="eyebrow">SUPERMARKET</span>
+          <h1>Catálogo de productos</h1>
           <p>
-            Controla tus productos y mantén tus
-            existencias actualizadas.
+            Encuentra tus productos, selecciona las
+            cantidades y completa tu compra.
           </p>
         </div>
 
         <div className="hero-art" aria-hidden="true">
-          ▦
+          🛒
         </div>
       </section>
 
-      <section className="stats" aria-label="Resumen">
-        <div className="stat">
-          <div className="stat-icon">▦</div>
-          <span>Productos registrados</span>
-          <strong>{products.length}</strong>
-        </div>
+      <div className="shop-layout">
+        <section
+          className="panel shop-catalog"
+          aria-label="Catálogo de productos"
+        >
+          <div className="panel-header">
+            <div>
+              <span className="eyebrow">
+                PRODUCTOS
+              </span>
+              <h2>Disponibles para comprar</h2>
+            </div>
+          </div>
 
-        <div className="stat">
-          <div className="stat-icon">◫</div>
-          <span>Categorías</span>
-          <strong>{categories.length}</strong>
-        </div>
+          <div className="filters">
+            <label className="search-field">
+              <span className="sr-only">
+                Buscar producto
+              </span>
 
-        <div className="stat">
-          <div className="stat-icon warning">!</div>
-          <span>Stock bajo</span>
-          <strong>{lowStock}</strong>
-        </div>
-      </section>
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Buscar producto..."
+              />
+            </label>
 
-      <section className="panel">
-        <div className="panel-header">
-          <div>
-            <span className="eyebrow">INVENTARIO</span>
-            <h2>Productos</h2>
+            <label className="category-field">
+              <span className="sr-only">
+                Filtrar por categoría
+              </span>
+
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="Todas">
+                  Todas las categorías
+                </option>
+
+                {categories.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="shop-products">
+            {availableProducts.map((product) => {
+              const quantity = Math.min(
+                cart[product.id] || 0,
+                product.stock
+              );
+
+              return (
+                <article
+                  className="shop-product"
+                  key={product.id}
+                >
+                  <div className="shop-product-info">
+                    <span className="shop-category">
+                      {product.categoria}
+                    </span>
+
+                    <h3>{product.nombre}</h3>
+
+                    <p>
+                      {product.marca} · {product.tipo}
+                    </p>
+
+                    <strong className="shop-price">
+                      {CLP.format(product.precio)}
+                    </strong>
+
+                    <span
+                      className={`shop-stock ${
+                        product.stock === 0
+                          ? 'shop-stock-empty'
+                          : ''
+                      }`}
+                    >
+                      {product.stock === 0
+                        ? 'Agotado'
+                        : `${product.stock} disponibles`}
+                    </span>
+                  </div>
+
+                  <div
+                    className="quantity shop-quantity"
+                    aria-label={`Cantidad de ${product.nombre}`}
+                  >
+                    <button
+                      type="button"
+                      disabled={pending || quantity === 0}
+                      aria-label={`Quitar una unidad de ${product.nombre}`}
+                      onClick={() =>
+                        changeQuantity(product, -1)
+                      }
+                    >
+                      −
+                    </button>
+
+                    <strong>{quantity}</strong>
+
+                    <button
+                      type="button"
+                      disabled={
+                        pending ||
+                        quantity >= product.stock
+                      }
+                      aria-label={`Agregar una unidad de ${product.nombre}`}
+                      onClick={() =>
+                        changeQuantity(product, 1)
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          {availableProducts.length === 0 && (
+            <p className="empty">
+              No se encontraron productos.
+            </p>
+          )}
+        </section>
+
+        <aside
+          className="panel shop-cart"
+          aria-label="Carrito de compras"
+        >
+          <span className="eyebrow">
+            TU COMPRA
+          </span>
+
+          <h2>Carrito</h2>
+
+          {cartProducts.length === 0 ? (
+            <p className="shop-cart-empty">
+              Tu carrito está vacío.
+            </p>
+          ) : (
+            <ul className="shop-cart-items">
+              {cartProducts.map((product) => (
+                <li key={product.id}>
+                  <div>
+                    <strong>{product.nombre}</strong>
+                    <span>
+                      {product.quantity} ×{' '}
+                      {CLP.format(product.precio)}
+                    </span>
+                  </div>
+
+                  <strong>
+                    {CLP.format(
+                      product.precio * product.quantity
+                    )}
+                  </strong>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div className="shop-cart-summary">
+            <div>
+              <span>Unidades</span>
+              <strong>{itemCount}</strong>
+            </div>
+
+            <div className="shop-total">
+              <span>Total</span>
+              <strong>{CLP.format(total)}</strong>
+            </div>
           </div>
 
           <button
-            className="secondary-button"
             type="button"
-            onClick={reset}
+            className="primary-button shop-buy-button"
+            disabled={pending || itemCount === 0}
+            onClick={handlePurchase}
           >
-            Restaurar
+            {pending ? 'Procesando...' : 'Comprar'}
           </button>
-        </div>
 
-        <div className="filters">
-          <label className="search-field">
-            <span className="sr-only">
-              Buscar producto
-            </span>
-            <input
-              type="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar producto..."
-            />
-          </label>
+          <button
+            type="button"
+            className="secondary-button shop-clear-button"
+            disabled={pending || itemCount === 0}
+            onClick={clearCart}
+          >
+            Vaciar carrito
+          </button>
 
-          <label className="category-field">
-            <span className="sr-only">
-              Filtrar por categoría
-            </span>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="Todas">Todas las categorías</option>
-              {categories.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-
-        {notice && (
-          <p className="notice" role="status">
-            {notice}
-          </p>
-        )}
-
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Categoría</th>
-                <th>Precio</th>
-                <th>Estado</th>
-                <th>Unidades</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((p) => (
-                <tr key={p.id}>
-                  <td className="product-name">
-                    {p.nombre}
-                  </td>
-                  <td>{p.categoria}</td>
-                  <td>{CLP.format(p.precio)}</td>
-                  <td>
-                    <span
-                      className={`status ${
-                        p.stock < 10 ? 'low' : 'ok'
-                      }`}
-                    >
-                      {p.stock === 0
-                        ? 'Sin stock'
-                        : p.stock < 10
-                          ? 'Stock bajo'
-                          : 'Disponible'}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="quantity">
-                      <button
-                        type="button"
-                        disabled={p.stock === 0}
-                        aria-label={`Reducir stock de ${p.nombre}`}
-                        onClick={() => changeStock(p.id, -1)}
-                      >
-                        −
-                      </button>
-                      <strong>{p.stock}</strong>
-                      <button
-                        type="button"
-                        aria-label={`Aumentar stock de ${p.nombre}`}
-                        onClick={() => changeStock(p.id, 1)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {filtered.length === 0 && (
-          <p className="empty">
-            No se encontraron productos.
-          </p>
-        )}
-      </section>
+          {message && (
+            <p className="notice" role="status">
+              {message}
+            </p>
+          )}
+        </aside>
+      </div>
     </>
   );
 }
-
-
-export default Home;
