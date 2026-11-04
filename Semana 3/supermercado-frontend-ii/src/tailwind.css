@@ -1,0 +1,16 @@
+
+/*
+  Tailwind CSS 4 - SuperMarket
+
+  Se utilizan las variables del tema y las
+  utilidades de Tailwind.
+
+  No se incluye Preflight para conservar
+  los estilos originales del proyecto.
+*/
+
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+
+@import "tailwindcss/utilities.css" layer(utilities);
