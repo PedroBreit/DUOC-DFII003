@@ -7,7 +7,19 @@ Aplicación web desarrollada con React para la gestión de productos, control de
 
 Este proyecto corresponde a la tercera semana de la asignatura **Desarrollo Frontend II (PFY2202)** de Duoc UC.
 
-La aplicación continúa el trabajo desarrollado durante la Semana 2, incorporando nuevas funcionalidades de navegación, consulta de productos, gestión del carrito y mejoras de experiencia de usuario.
+La aplicación continúa el trabajo desarrollado durante la Semana 2, incorporando navegación avanzada, consulta de productos, gestión del carrito, componentes reutilizables y mejoras de experiencia de usuario.
+
+---
+
+## Aplicación publicada
+
+**GitHub Pages:**
+
+https://pedrobreit.github.io/DUOC-DFII003/semana-03/
+
+**Código fuente:**
+
+https://github.com/PedroBreit/DUOC-DFII003/tree/main/Semana%203/supermercado-frontend-ii
 
 ---
 
@@ -15,7 +27,7 @@ La aplicación continúa el trabajo desarrollado durante la Semana 2, incorporan
 
 Desarrollar una aplicación frontend modular que permita consultar productos, filtrarlos por categoría, visualizar sus detalles y administrar sus existencias mediante componentes React reutilizables y un estado compartido.
 
-La aplicación utiliza React Router para gestionar la navegación y Context API junto con `useReducer` para centralizar las operaciones del inventario y del carrito.
+La aplicación utiliza React Router para gestionar la navegación, Context API junto con `useReducer` para centralizar el estado, y `React.lazy()` con `Suspense` para cargar las páginas de forma diferida.
 
 ---
 
@@ -23,16 +35,19 @@ La aplicación utiliza React Router para gestionar la navegación y Context API 
 
 | Tecnología | Uso |
 |---|---|
-| React 18 | Desarrollo de componentes e interfaz |
+| React 18 | Componentes funcionales e interfaz |
 | JavaScript | Lógica de la aplicación |
-| Vite 6 | Entorno de desarrollo y compilación |
+| Vite 6 | Desarrollo y compilación |
 | React Router DOM 6 | Navegación entre páginas |
-| Context API | Compartir el estado de la aplicación |
+| React.lazy | Carga diferida de módulos |
+| Suspense | Indicador durante la carga de páginas |
+| Context API | Estado compartido |
 | useReducer | Gestión de inventario y carrito |
-| Tailwind CSS 4 | Estilos y diseño responsive |
+| Tailwind CSS 4 | Utilidades y diseño responsive |
 | CSS3 | Estilos globales y específicos |
 | localStorage | Persistencia local de datos |
 | HTML5 | Estructura semántica |
+| GitHub Pages | Publicación de la aplicación |
 
 ---
 
@@ -50,7 +65,7 @@ La página Inicio permite:
 - Incrementar o disminuir las cantidades seleccionadas.
 - Acceder al detalle de cada producto.
 
-Los controles de cantidad se actualizan según las unidades disponibles.
+Los controles de cantidad se actualizan según las unidades disponibles y utilizan el componente reutilizable `QuantityControl.jsx`.
 
 ### 2. Detalle del producto
 
@@ -129,13 +144,19 @@ El formulario permite registrar:
 - Precio.
 - Stock inicial.
 
-Se incluyen validaciones para campos obligatorios, valores numéricos y productos duplicados.
+El registro incorpora las siguientes validaciones:
+
+- Todos los campos son obligatorios.
+- El precio debe ser un número entero igual o mayor que cero.
+- El stock inicial debe ser un número entero no negativo.
+- No se permite repetir la combinación de nombre y marca de un producto existente.
+- El identificador del producto se genera automáticamente.
 
 Al guardar correctamente, el artículo queda disponible en el inventario y en el catálogo.
 
 ### 6. Centro de ayuda
 
-La página de preguntas frecuentes está organizada por categorías:
+La página de preguntas frecuentes contiene 22 preguntas distribuidas en cuatro categorías:
 
 - Catálogo y productos.
 - Carrito de compras.
@@ -173,9 +194,55 @@ El proyecto utiliza componentes funcionales de React y separación de responsabi
 
 El estado centralizado permite mantener la información sincronizada entre las distintas páginas.
 
-### Navegación
+### Componentes reutilizables
+
+El proyecto incluye componentes compartidos para evitar la duplicación de código.
+
+**Navbar.jsx**
+
+Administra la navegación inferior de la aplicación.
+
+**QuantityControl.jsx**
+
+Implementa controles de cantidad reutilizables en Inicio y Carrito.
+
+Recibe mediante props:
+
+- Nombre del producto.
+- Cantidad seleccionada.
+- Stock disponible.
+- Función para aumentar la cantidad.
+- Función para disminuir la cantidad.
+- Variante visual del control.
+
+Las variantes `catalog` y `cart` permiten reutilizar el comportamiento manteniendo las dimensiones de cada pantalla.
+
+### Formato monetario centralizado
+
+`utils/formatCurrency.js` contiene la función `formatCurrency()`.
+
+Utiliza `Intl.NumberFormat` con la configuración regional `es-CL` y la moneda `CLP`.
+
+Esta utilidad se comparte entre:
+
+- Inicio.
+- Carrito.
+- Inventario.
+- Detalle del producto.
+
+Así se mantiene un formato de precios consistente y se evita repetir la configuración monetaria.
+
+### Navegación y carga diferida
 
 React Router DOM administra las rutas mediante `HashRouter`.
+
+Las páginas se importan con `React.lazy()` y se muestran dentro de un componente `Suspense`.
+
+Esto permite que Vite genere módulos separados que se cargan cuando el usuario navega a la página correspondiente.
+
+Mientras una página se carga, se presenta el mensaje:
+
+`Cargando contenido...`
 
 Las rutas principales son:
 
@@ -207,7 +274,8 @@ No se utiliza una base de datos externa ni sincronización entre dispositivos.
 supermercado-frontend-ii/
 ├── src/
 │   ├── components/
-│   │   └── Navbar.jsx
+│   │   ├── Navbar.jsx
+│   │   └── QuantityControl.jsx
 │   │
 │   ├── context/
 │   │   └── InventarioContext.jsx
@@ -233,6 +301,9 @@ supermercado-frontend-ii/
 │   ├── services/
 │   │   └── inventarioStorage.js
 │   │
+│   ├── utils/
+│   │   └── formatCurrency.js
+│   │
 │   ├── App.jsx
 │   ├── main.jsx
 │   ├── styles.css
@@ -252,7 +323,8 @@ supermercado-frontend-ii/
 - `data/`: productos iniciales.
 - `pages/`: páginas y estilos específicos.
 - `services/`: almacenamiento y validación de datos.
-- `App.jsx`: definición de las rutas y estructura general.
+- `utils/`: funciones auxiliares compartidas.
+- `App.jsx`: rutas y carga diferida de páginas.
 - `main.jsx`: punto de entrada de React.
 - `styles.css`: estilos globales.
 - `tailwind.css`: integración de Tailwind CSS.
@@ -297,6 +369,10 @@ Abrir en el navegador la dirección local que indique Vite, incluyendo la ruta b
 npm run build
 ```
 
+Vite genera los archivos optimizados en `dist/`.
+
+Debido a la carga diferida, la compilación genera archivos JavaScript y CSS separados para distintas páginas.
+
 ### 6. Previsualizar la compilación
 
 ```bash
@@ -331,18 +407,22 @@ Durante el desarrollo se comprobaron:
 - Visualización y búsqueda de productos.
 - Filtros por categoría.
 - Navegación entre páginas.
+- Carga diferida de páginas con React.lazy y Suspense.
 - Acceso al detalle de productos.
 - Navegación de regreso según el origen.
 - Registro y validación de productos nuevos.
 - Incremento y reducción de existencias.
 - Control de productos agotados.
+- Reutilización de QuantityControl en Inicio y Carrito.
 - Operaciones del carrito.
 - Cálculo de subtotales y total.
+- Formato CLP consistente entre páginas.
 - Confirmación de compra simulada.
 - Restauración del inventario.
 - Persistencia mediante localStorage.
 - Funcionamiento de las preguntas frecuentes.
 - Adaptación a diferentes tamaños de pantalla.
+- Publicación de las versiones semanales en GitHub Pages.
 
 También se verificó la generación de la versión de producción mediante:
 
@@ -350,7 +430,35 @@ También se verificó la generación de la versión de producción mediante:
 npm run build
 ```
 
-La compilación final se completó correctamente con Vite.
+La compilación se completó correctamente con Vite.
+
+---
+
+## Publicación en GitHub Pages
+
+El repositorio utiliza la rama `gh-pages` como origen de publicación.
+
+Cada semana mantiene sus archivos compilados en una carpeta independiente:
+
+```text
+gh-pages/
+├── index.html
+├── semana-01/
+├── semana-02/
+└── semana-03/
+```
+
+Direcciones de las aplicaciones:
+
+- Semana 1: https://pedrobreit.github.io/DUOC-DFII003/semana-01/
+- Semana 2: https://pedrobreit.github.io/DUOC-DFII003/semana-02/
+- Semana 3: https://pedrobreit.github.io/DUOC-DFII003/semana-03/
+
+La aplicación de Semana 3 utiliza la ruta base de Vite:
+
+`/DUOC-DFII003/semana-03/`
+
+La navegación interna utiliza `HashRouter` para funcionar dentro de la ruta publicada.
 
 ---
 

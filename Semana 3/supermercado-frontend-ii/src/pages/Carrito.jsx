@@ -1,36 +1,10 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import QuantityControl from '../components/QuantityControl.jsx';
 import { useInventario } from '../context/InventarioContext.jsx';
-
-const CLP = new Intl.NumberFormat('es-CL', {
-  style: 'currency',
-  currency: 'CLP',
-  maximumFractionDigits: 0
-});
-
-function TrashIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M3 6h18" />
-      <path d="M8 6V4h8v2" />
-      <path d="M19 6l-1 14H6L5 6" />
-      <path d="M10 11v5" />
-      <path d="M14 11v5" />
-    </svg>
-  );
-}
+import { formatCurrency } from '../utils/formatCurrency.js';
 
 export default function Carrito() {
   const {
@@ -50,11 +24,12 @@ export default function Carrito() {
     if (cartCount === 0) return;
 
     const confirmed = window.confirm(
-      `¿Confirmar la compra de ${cartCount} unidad(es) por ${CLP.format(cartTotal)}?`
+      `¿Confirmar la compra de ${cartCount} unidad(es) por ${formatCurrency(cartTotal)}?`
     );
 
     if (confirmed) {
       checkout();
+
       setMessage(
         '¡Compra realizada correctamente! El inventario ha sido actualizado.'
       );
@@ -156,7 +131,6 @@ export default function Carrito() {
               );
 
               const available = product?.stock || 0;
-              const isOutOfStock = available === 0;
 
               return (
                 <article
@@ -188,13 +162,15 @@ export default function Carrito() {
                       </p>
 
                       <strong className="mt-3 block text-lg text-blue-600">
-                        {CLP.format(item.precio)}
+                        {formatCurrency(item.precio)}
                       </strong>
                     </div>
 
                     <button
                       type="button"
-                      onClick={() => handleRemoveItem(item)}
+                      onClick={() =>
+                        handleRemoveItem(item)
+                      }
                       aria-label={`Eliminar ${item.nombre} del carrito`}
                       className="inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                     >
@@ -203,60 +179,18 @@ export default function Carrito() {
                   </div>
 
                   <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-4">
-                    <div
-                      className="flex h-12 w-44 items-stretch overflow-hidden rounded-xl border border-blue-600"
-                      role="group"
-                      aria-label={`Cantidad de ${item.nombre}`}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => handleSubtract(item)}
-                        aria-label={
-                          item.quantity === 1
-                            ? `Eliminar ${item.nombre} del carrito`
-                            : `Disminuir cantidad de ${item.nombre}`
-                        }
-                        title={
-                          item.quantity === 1
-                            ? 'Eliminar del carrito'
-                            : 'Disminuir cantidad'
-                        }
-                        className="flex h-full w-12 shrink-0 items-center justify-center bg-blue-600 text-white transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white"
-                      >
-                        {item.quantity === 1 ? (
-                          <TrashIcon />
-                        ) : (
-                          <span
-                            className="text-2xl"
-                            aria-hidden="true"
-                          >
-                            −
-                          </span>
-                        )}
-                      </button>
-
-                      <span
-                        className="flex flex-1 items-center justify-center bg-white text-lg font-extrabold text-blue-600"
-                        aria-live="polite"
-                      >
-                        {item.quantity}
-                      </span>
-
-                      <button
-                        type="button"
-                        onClick={() => handleAdd(item)}
-                        disabled={isOutOfStock}
-                        aria-label={`Aumentar cantidad de ${item.nombre}`}
-                        title={
-                          isOutOfStock
-                            ? 'Sin stock disponible'
-                            : 'Agregar una unidad'
-                        }
-                        className="flex h-full w-12 shrink-0 items-center justify-center bg-blue-600 text-2xl text-white transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
-                      >
-                        +
-                      </button>
-                    </div>
+                    <QuantityControl
+                      productName={item.nombre}
+                      quantity={item.quantity}
+                      availableStock={available}
+                      onIncrease={() =>
+                        handleAdd(item)
+                      }
+                      onDecrease={() =>
+                        handleSubtract(item)
+                      }
+                      variant="cart"
+                    />
 
                     <div className="text-right">
                       <span className="block text-xs text-slate-500">
@@ -264,7 +198,7 @@ export default function Carrito() {
                       </span>
 
                       <strong className="text-xl text-slate-800">
-                        {CLP.format(
+                        {formatCurrency(
                           item.precio * item.quantity
                         )}
                       </strong>
@@ -289,14 +223,20 @@ export default function Carrito() {
                 <span className="text-slate-500">
                   Productos diferentes
                 </span>
-                <strong>{cartProducts.length}</strong>
+
+                <strong>
+                  {cartProducts.length}
+                </strong>
               </div>
 
               <div className="flex justify-between">
                 <span className="text-slate-500">
                   Unidades
                 </span>
-                <strong>{cartCount}</strong>
+
+                <strong>
+                  {cartCount}
+                </strong>
               </div>
 
               <div className="flex justify-between gap-3 border-t border-slate-200 pt-5">
@@ -305,7 +245,7 @@ export default function Carrito() {
                 </span>
 
                 <strong className="text-2xl text-blue-600">
-                  {CLP.format(cartTotal)}
+                  {formatCurrency(cartTotal)}
                 </strong>
               </div>
             </div>

@@ -1,37 +1,12 @@
 
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import QuantityControl from '../components/QuantityControl.jsx';
 import { useInventario } from '../context/InventarioContext.jsx';
+import { formatCurrency } from '../utils/formatCurrency.js';
+
 import './Home.css';
-
-const CLP = new Intl.NumberFormat('es-CL', {
-  style: 'currency',
-  currency: 'CLP',
-  maximumFractionDigits: 0
-});
-
-function TrashIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M3 6h18" />
-      <path d="M8 6V4h8v2" />
-      <path d="M19 6l-1 14H6L5 6" />
-      <path d="M10 11v5" />
-      <path d="M14 11v5" />
-    </svg>
-  );
-}
 
 export default function Home() {
   const {
@@ -98,7 +73,10 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="hero-art" aria-hidden="true">
+        <div
+          className="hero-art"
+          aria-hidden="true"
+        >
           🛒
         </div>
       </section>
@@ -146,7 +124,10 @@ export default function Home() {
               </option>
 
               {categories.map((item) => (
-                <option key={item} value={item}>
+                <option
+                  key={item}
+                  value={item}
+                >
                   {item}
                 </option>
               ))}
@@ -180,7 +161,7 @@ export default function Home() {
                   </p>
 
                   <p className="mt-4 text-2xl font-extrabold text-blue-600">
-                    {CLP.format(product.precio)}
+                    {formatCurrency(product.precio)}
                   </p>
 
                   <p
@@ -202,7 +183,9 @@ export default function Home() {
                   {quantity === 0 ? (
                     <button
                       type="button"
-                      onClick={() => addToCart(product.id)}
+                      onClick={() =>
+                        addToCart(product.id)
+                      }
                       disabled={isOutOfStock}
                       className="flex min-h-12 w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-3 font-bold text-white transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
                     >
@@ -211,68 +194,24 @@ export default function Home() {
                         : 'Agregar al carrito'}
                     </button>
                   ) : (
-                    <div
-                      className="flex min-h-12 w-full items-stretch overflow-hidden rounded-xl border border-blue-600"
-                      role="group"
-                      aria-label={`Cantidad de ${product.nombre} en el carrito`}
-                    >
-                      <button
-                        type="button"
-                        onClick={() =>
-                          removeFromCart(product.id)
-                        }
-                        aria-label={
-                          quantity === 1
-                            ? `Eliminar ${product.nombre} del carrito`
-                            : `Disminuir cantidad de ${product.nombre}`
-                        }
-                        title={
-                          quantity === 1
-                            ? 'Eliminar del carrito'
-                            : 'Disminuir cantidad'
-                        }
-                        className="flex h-12 w-14 items-center justify-center bg-blue-600 text-white transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white"
-                      >
-                        {quantity === 1 ? (
-                          <TrashIcon />
-                        ) : (
-                          <span
-                            aria-hidden="true"
-                            className="text-2xl"
-                          >
-                            −
-                          </span>
-                        )}
-                      </button>
-
-                      <span
-                        className="flex h-12 flex-1 items-center justify-center bg-white text-lg font-extrabold text-blue-600"
-                        aria-live="polite"
-                      >
-                        {quantity}
-                      </span>
-
-                      <button
-                        type="button"
-                        onClick={() => addToCart(product.id)}
-                        disabled={isOutOfStock}
-                        aria-label={`Aumentar cantidad de ${product.nombre}`}
-                        title={
-                          isOutOfStock
-                            ? 'Sin stock disponible'
-                            : 'Agregar una unidad'
-                        }
-                        className="flex h-12 w-14 items-center justify-center bg-blue-600 text-2xl text-white transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
-                      >
-                        +
-                      </button>
-                    </div>
+                    <QuantityControl
+                      productName={product.nombre}
+                      quantity={quantity}
+                      availableStock={product.stock}
+                      onIncrease={() =>
+                        addToCart(product.id)
+                      }
+                      onDecrease={() =>
+                        removeFromCart(product.id)
+                      }
+                      variant="catalog"
+                    />
                   )}
 
                   <Link
                     to={`/producto/${product.id}`}
                     state={{ from: '/' }}
-                    className="flex min-h-12 w-full items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-3 text-center font-bold text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    className="flex min-h-12 w-full items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-3 text-center font-bold text-slate-700 hover:border-slate-400 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                   >
                     Ver detalle
                   </Link>
@@ -283,7 +222,10 @@ export default function Home() {
         </div>
 
         {filteredProducts.length === 0 && (
-          <p className="empty" role="status">
+          <p
+            className="empty"
+            role="status"
+          >
             No se encontraron productos.
           </p>
         )}

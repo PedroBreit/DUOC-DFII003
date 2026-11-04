@@ -123,7 +123,7 @@ const secciones = [
         id: 'validaciones-producto',
         pregunta: '¿Qué requisitos debe cumplir un producto nuevo?',
         respuesta:
-          'Los datos obligatorios deben estar completos. El precio debe ser válido y positivo; el stock inicial debe ser un número entero no negativo. Además, no se permite registrar un producto duplicado con el mismo nombre y marca.'
+          'Los campos obligatorios deben estar completos. El precio debe ser un número entero válido, igual o mayor que cero; no se aceptan precios negativos. El stock inicial debe ser un número entero no negativo. Además, no se permite registrar un producto duplicado con el mismo nombre y marca.'
       },
       {
         id: 'restaurar-inventario',
@@ -271,7 +271,6 @@ export default function FAQ() {
 
   return (
     <section className="content-page sm-help">
-      {/* ENCABEZADO SIN CONTADOR */}
       <header className="sm-help-heading">
         <span className="eyebrow">
           CENTRO DE AYUDA
@@ -285,7 +284,6 @@ export default function FAQ() {
         </p>
       </header>
 
-      {/* CATEGORÍAS DESPLEGABLES */}
       <div className="sm-help-categories">
         {secciones.map((seccion) => {
           const isCategoryOpen =
@@ -382,7 +380,6 @@ export default function FAQ() {
         })}
       </div>
 
-      {/* AYUDA ADICIONAL */}
       <section className="sm-help-footer">
         <div className="sm-help-footer-icon" aria-hidden="true">
           ?

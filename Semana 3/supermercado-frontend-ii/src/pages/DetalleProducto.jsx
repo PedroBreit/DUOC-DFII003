@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+
 import {
   Link,
   useLocation,
@@ -7,12 +8,7 @@ import {
 } from 'react-router-dom';
 
 import { useInventario } from '../context/InventarioContext.jsx';
-
-const CLP = new Intl.NumberFormat('es-CL', {
-  style: 'currency',
-  currency: 'CLP',
-  maximumFractionDigits: 0
-});
+import { formatCurrency } from '../utils/formatCurrency.js';
 
 const allowedOrigins = {
   '/': 'Volver al inicio',
@@ -189,7 +185,7 @@ export default function DetalleProducto() {
               </p>
 
               <p className="mt-1 text-4xl font-extrabold text-blue-600">
-                {CLP.format(product.precio)}
+                {formatCurrency(product.precio)}
               </p>
             </div>
 

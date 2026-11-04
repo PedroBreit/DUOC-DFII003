@@ -1,14 +1,11 @@
 
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useInventario } from '../context/InventarioContext.jsx';
-import './Inventario.css';
 
-const CLP = new Intl.NumberFormat('es-CL', {
-  style: 'currency',
-  currency: 'CLP',
-  maximumFractionDigits: 0
-});
+import { useInventario } from '../context/InventarioContext.jsx';
+import { formatCurrency } from '../utils/formatCurrency.js';
+
+import './Inventario.css';
 
 const stockStyles = {
   available: {
@@ -246,7 +243,10 @@ export default function Inventario() {
         </div>
 
         {notice && (
-          <p className="notice" role="status">
+          <p
+            className="notice"
+            role="status"
+          >
             {notice}
           </p>
         )}
@@ -288,10 +288,12 @@ export default function Inventario() {
                         </div>
                       </td>
 
-                      <td>{product.categoria}</td>
+                      <td>
+                        {product.categoria}
+                      </td>
 
                       <td className="inventory-price">
-                        {CLP.format(product.precio)}
+                        {formatCurrency(product.precio)}
                       </td>
 
                       <td>
@@ -311,7 +313,9 @@ export default function Inventario() {
                       </td>
 
                       <td>
-                        <DetailLink product={product} />
+                        <DetailLink
+                          product={product}
+                        />
                       </td>
                     </tr>
                   );
@@ -356,19 +360,29 @@ export default function Inventario() {
 
                 <div className="inventory-card-details">
                   <div className="inventory-card-row">
-                    <span>Categoría</span>
-                    <strong>{product.categoria}</strong>
+                    <span>
+                      Categoría
+                    </span>
+
+                    <strong>
+                      {product.categoria}
+                    </strong>
                   </div>
 
                   <div className="inventory-card-row">
-                    <span>Precio</span>
+                    <span>
+                      Precio
+                    </span>
+
                     <strong className="inventory-price">
-                      {CLP.format(product.precio)}
+                      {formatCurrency(product.precio)}
                     </strong>
                   </div>
 
                   <div className="inventory-card-row inventory-card-stock">
-                    <span>Unidades</span>
+                    <span>
+                      Unidades
+                    </span>
 
                     <StockControls
                       product={product}
@@ -377,14 +391,19 @@ export default function Inventario() {
                   </div>
                 </div>
 
-                <DetailLink product={product} />
+                <DetailLink
+                  product={product}
+                />
               </article>
             );
           })}
         </div>
 
         {filtered.length === 0 && (
-          <p className="empty" role="status">
+          <p
+            className="empty"
+            role="status"
+          >
             No se encontraron productos con los filtros seleccionados.
           </p>
         )}
