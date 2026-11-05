@@ -1,0 +1,1 @@
+import{j as n,L as e}from"./index-BBceBb9M.js";function i(){return n.jsxs("section",{className:"content-page center",children:[n.jsx("h1",{children:"Página no encontrada"}),n.jsx("p",{children:"La página solicitada no existe."}),n.jsx(e,{className:"primary-button",to:"/",children:"Volver al inicio"})]})}export{i as default};
