@@ -27,7 +27,7 @@ https://github.com/PedroBreit/DUOC-DFII003/tree/main/Semana%203/supermercado-fro
 
 Desarrollar una aplicación frontend modular que permita consultar productos, filtrarlos por categoría, visualizar sus detalles y administrar sus existencias mediante componentes React reutilizables y un estado compartido.
 
-La aplicación utiliza React Router para gestionar la navegación, Context API junto con `useReducer` para centralizar el estado, y `React.lazy()` con `Suspense` para cargar las páginas de forma diferida.
+La aplicación utiliza React Router para gestionar la navegación, Context API junto con `useReducer` para centralizar el estado, `React.lazy()` con `Suspense` para cargar las páginas de forma diferida y hooks personalizados para reutilizar la lógica de filtrado.
 
 ---
 
@@ -43,6 +43,7 @@ La aplicación utiliza React Router para gestionar la navegación, Context API j
 | Suspense | Indicador durante la carga de páginas |
 | Context API | Estado compartido |
 | useReducer | Gestión de inventario y carrito |
+| Hooks personalizados | Reutilización de lógica |
 | Tailwind CSS 4 | Utilidades y diseño responsive |
 | CSS3 | Estilos globales y específicos |
 | localStorage | Persistencia local de datos |
@@ -66,6 +67,8 @@ La página Inicio permite:
 - Acceder al detalle de cada producto.
 
 Los controles de cantidad se actualizan según las unidades disponibles y utilizan el componente reutilizable `QuantityControl.jsx`.
+
+La búsqueda y el filtrado utilizan `useProductFilters`, compartido con Inventario. Los filtros generan una lista de resultados sin modificar los productos originales.
 
 ### 2. Detalle del producto
 
@@ -131,6 +134,14 @@ Los productos presentan estados visuales según las existencias:
 
 El sistema impide disminuir las existencias por debajo de cero.
 
+La pantalla está dividida en componentes reutilizables:
+
+- `InventoryTable.jsx`: listado para escritorio.
+- `InventoryCards.jsx`: tarjetas para móviles y tablets.
+- `InventoryShared.jsx`: estados, controles de stock y enlaces al detalle.
+
+Ambas representaciones reciben los mismos productos filtrados y utilizan las operaciones del contexto global.
+
 ### 5. Registro de productos
 
 Desde Inventario se puede acceder al formulario Agregar producto.
@@ -147,12 +158,21 @@ El formulario permite registrar:
 El registro incorpora las siguientes validaciones:
 
 - Todos los campos son obligatorios.
+- Los campos de texto deben contener caracteres válidos.
+- El nombre admite hasta 120 caracteres.
+- La marca y el tipo admiten hasta 80 caracteres cada uno.
 - El precio debe ser un número entero igual o mayor que cero.
 - El stock inicial debe ser un número entero no negativo.
 - No se permite repetir la combinación de nombre y marca de un producto existente.
 - El identificador del producto se genera automáticamente.
 
-Al guardar correctamente, el artículo queda disponible en el inventario y en el catálogo.
+Las reglas del formulario se centralizan en `services/productValidation.js`, utilizando expresiones regulares y comprobaciones numéricas.
+
+El contexto utiliza las mismas reglas antes de incorporar un producto al inventario.
+
+La función `addProduct` comunica al formulario el resultado de la validación previa. Si los datos no son válidos o el producto está duplicado, se muestra un mensaje de error y se permanece en el formulario.
+
+Cuando la solicitud es válida, se envía al reducer y se navega a Inventario, donde el producto queda disponible.
 
 ### 6. Centro de ayuda
 
@@ -194,6 +214,8 @@ El proyecto utiliza componentes funcionales de React y separación de responsabi
 
 El estado centralizado permite mantener la información sincronizada entre las distintas páginas.
 
+Las operaciones de stock y carrito se realizan mediante acciones del reducer, evitando que las páginas mantengan copias independientes del inventario.
+
 ### Componentes reutilizables
 
 El proyecto incluye componentes compartidos para evitar la duplicación de código.
@@ -216,6 +238,59 @@ Recibe mediante props:
 - Variante visual del control.
 
 Las variantes `catalog` y `cart` permiten reutilizar el comportamiento manteniendo las dimensiones de cada pantalla.
+
+**FilterBar.jsx**
+
+Contiene el buscador y el selector de categoría utilizados en Inicio e Inventario.
+
+Recibe los valores, las categorías y las funciones de actualización mediante props.
+
+**InventoryTable.jsx**
+
+Presenta los productos del inventario en una tabla semántica para pantallas amplias.
+
+**InventoryCards.jsx**
+
+Presenta los mismos productos en tarjetas adaptadas a pantallas pequeñas.
+
+**InventoryShared.jsx**
+
+Agrupa los elementos compartidos por ambas vistas:
+
+- `InventoryStatus`: indicador de disponibilidad.
+- `InventoryStockControls`: controles para modificar existencias.
+- `InventoryDetailLink`: enlace al detalle del producto.
+
+### Hook de filtrado compartido
+
+`hooks/useProductFilters.js` administra:
+
+- Texto de búsqueda.
+- Categoría seleccionada.
+- Categorías derivadas de los productos registrados.
+- Lista de productos filtrados.
+
+Utiliza `useState` para los controles y `useMemo` para los datos derivados.
+
+La búsqueda contempla nombre, marca, tipo y categoría. El filtro por categoría puede combinarse con la búsqueda de texto.
+
+El filtrado utiliza `Array.filter()` y no modifica el inventario original.
+
+### Validaciones compartidas
+
+`services/productValidation.js` centraliza las reglas utilizadas durante el registro.
+
+Incluye funciones para:
+
+- Normalizar los campos de texto.
+- Comprobar los formatos mediante expresiones regulares.
+- Validar precios y existencias como números enteros no negativos.
+- Detectar productos duplicados por nombre y marca.
+- Validar un producto antes de incorporarlo al estado global.
+
+El formulario utiliza `validateProductForm` y el contexto utiliza `validateProductRegistration`.
+
+La validación de los datos almacenados permanece en `inventarioStorage.js`, conservando la recuperación de productos anteriores.
 
 ### Formato monetario centralizado
 
@@ -274,6 +349,10 @@ No se utiliza una base de datos externa ni sincronización entre dispositivos.
 supermercado-frontend-ii/
 ├── src/
 │   ├── components/
+│   │   ├── FilterBar.jsx
+│   │   ├── InventoryCards.jsx
+│   │   ├── InventoryShared.jsx
+│   │   ├── InventoryTable.jsx
 │   │   ├── Navbar.jsx
 │   │   └── QuantityControl.jsx
 │   │
@@ -282,6 +361,9 @@ supermercado-frontend-ii/
 │   │
 │   ├── data/
 │   │   └── initialProducts.js
+│   │
+│   ├── hooks/
+│   │   └── useProductFilters.js
 │   │
 │   ├── pages/
 │   │   ├── About.jsx
@@ -299,7 +381,8 @@ supermercado-frontend-ii/
 │   │   └── NotFound.jsx
 │   │
 │   ├── services/
-│   │   └── inventarioStorage.js
+│   │   ├── inventarioStorage.js
+│   │   └── productValidation.js
 │   │
 │   ├── utils/
 │   │   └── formatCurrency.js
@@ -321,6 +404,7 @@ supermercado-frontend-ii/
 - `components/`: componentes reutilizables de interfaz.
 - `context/`: estado global y operaciones del inventario.
 - `data/`: productos iniciales.
+- `hooks/`: lógica reutilizable de React.
 - `pages/`: páginas y estilos específicos.
 - `services/`: almacenamiento y validación de datos.
 - `utils/`: funciones auxiliares compartidas.
@@ -406,13 +490,20 @@ Durante el desarrollo se comprobaron:
 
 - Visualización y búsqueda de productos.
 - Filtros por categoría.
+- Combinación de búsqueda y categoría mediante el hook compartido.
+- Filtrado sin modificación de los productos originales.
 - Navegación entre páginas.
 - Carga diferida de páginas con React.lazy y Suspense.
 - Acceso al detalle de productos.
 - Navegación de regreso según el origen.
 - Registro y validación de productos nuevos.
+- Detección de duplicados por nombre y marca.
+- Rechazo de precios y existencias inválidos.
+- Comunicación de errores del registro al formulario.
+- Registro de productos con precio y stock iguales a cero.
 - Incremento y reducción de existencias.
 - Control de productos agotados.
+- Visualización del inventario en tabla y tarjetas.
 - Reutilización de QuantityControl en Inicio y Carrito.
 - Operaciones del carrito.
 - Cálculo de subtotales y total.
@@ -430,7 +521,7 @@ También se verificó la generación de la versión de producción mediante:
 npm run build
 ```
 
-La compilación se completó correctamente con Vite.
+La compilación se completó correctamente con Vite durante las pruebas locales.
 
 ---
 

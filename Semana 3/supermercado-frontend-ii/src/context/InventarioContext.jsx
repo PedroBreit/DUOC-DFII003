@@ -8,11 +8,15 @@ import {
 } from 'react';
 
 import { initialProducts } from '../data/initialProducts.js';
+
 import {
   loadProducts,
-  saveProducts,
-  isValidProduct
+  saveProducts
 } from '../services/inventarioStorage.js';
+
+import {
+  validateProductRegistration
+} from '../services/productValidation.js';
 
 const InventarioContext = createContext(null);
 const CART_KEY = 'supermarket-carrito-v1';
@@ -29,25 +33,27 @@ function loadInitialState() {
     if (Array.isArray(saved)) {
       const unique = new Set();
 
-      cart = saved.filter((item) => {
-        if (
-          !item ||
-          !Number.isSafeInteger(item.quantity) ||
-          item.quantity <= 0 ||
-          unique.has(String(item.id)) ||
-          !products.some(
-            (p) => String(p.id) === String(item.id)
-          )
-        ) {
-          return false;
-        }
+      cart = saved
+        .filter((item) => {
+          if (
+            !item ||
+            !Number.isSafeInteger(item.quantity) ||
+            item.quantity <= 0 ||
+            unique.has(String(item.id)) ||
+            !products.some(
+              (p) => String(p.id) === String(item.id)
+            )
+          ) {
+            return false;
+          }
 
-        unique.add(String(item.id));
-        return true;
-      }).map((item) => ({
-        id: item.id,
-        quantity: item.quantity
-      }));
+          unique.add(String(item.id));
+          return true;
+        })
+        .map((item) => ({
+          id: item.id,
+          quantity: item.quantity
+        }));
     }
   } catch {
     cart = [];
@@ -59,20 +65,24 @@ function loadInitialState() {
 function inventoryReducer(state, action) {
   switch (action.type) {
     case 'ADD_PRODUCT': {
-      const duplicated = state.products.some(
-        (p) => String(p.id) === String(action.product.id)
+      const result = validateProductRegistration(
+        action.product,
+        state.products
       );
 
-      if (!isValidProduct(action.product) || duplicated) {
+      if (!result.ok) {
         return {
           ...state,
-          notice: 'Producto inválido o ID duplicado.'
+          notice: result.error
         };
       }
 
       return {
         ...state,
-        products: [...state.products, action.product],
+        products: [
+          ...state.products,
+          result.product
+        ],
         notice: 'Producto agregado correctamente.'
       };
     }
@@ -164,7 +174,11 @@ function inventoryReducer(state, action) {
         return state;
       }
 
-      const returned = Math.min(quantity, item.quantity);
+      const returned = Math.min(
+        quantity,
+        item.quantity
+      );
+
       const remaining = item.quantity - returned;
 
       return {
@@ -175,12 +189,18 @@ function inventoryReducer(state, action) {
             )
           : state.cart.map((p) =>
               String(p.id) === String(action.id)
-                ? { ...p, quantity: remaining }
+                ? {
+                    ...p,
+                    quantity: remaining
+                  }
                 : p
             ),
         products: state.products.map((p) =>
           String(p.id) === String(action.id)
-            ? { ...p, stock: p.stock + returned }
+            ? {
+                ...p,
+                stock: p.stock + returned
+              }
             : p
         ),
         notice: 'Inventario actualizado.'
@@ -200,7 +220,8 @@ function inventoryReducer(state, action) {
         products: state.products.map((p) => ({
           ...p,
           stock:
-            p.stock + (quantities.get(String(p.id)) || 0)
+            p.stock +
+            (quantities.get(String(p.id)) || 0)
         })),
         cart: [],
         notice: 'Carrito vaciado. Stock devuelto.'
@@ -216,7 +237,9 @@ function inventoryReducer(state, action) {
 
     case 'RESET':
       return {
-        products: initialProducts.map((p) => ({ ...p })),
+        products: initialProducts.map((p) => ({
+          ...p
+        })),
         cart: [],
         notice: 'Inventario y carrito restaurados.'
       };
@@ -241,7 +264,9 @@ export function InventarioProvider({ children }) {
 
   useEffect(() => {
     if (!saveProducts(state.products)) {
-      console.error('No se pudo guardar el inventario.');
+      console.error(
+        'No se pudo guardar el inventario.'
+      );
     }
   }, [state.products]);
 
@@ -252,27 +277,35 @@ export function InventarioProvider({ children }) {
         JSON.stringify(state.cart)
       );
     } catch {
-      console.error('No se pudo guardar el carrito.');
+      console.error(
+        'No se pudo guardar el carrito.'
+      );
     }
   }, [state.cart]);
 
   const cartProducts = useMemo(
-    () => state.cart
-      .map((item) => {
-        const product = state.products.find(
-          (p) => String(p.id) === String(item.id)
-        );
+    () =>
+      state.cart
+        .map((item) => {
+          const product = state.products.find(
+            (p) =>
+              String(p.id) === String(item.id)
+          );
 
-        return product
-          ? { ...product, quantity: item.quantity }
-          : null;
-      })
-      .filter(Boolean),
+          return product
+            ? {
+                ...product,
+                quantity: item.quantity
+              }
+            : null;
+        })
+        .filter(Boolean),
     [state.cart, state.products]
   );
 
   const cartCount = cartProducts.reduce(
-    (total, item) => total + item.quantity,
+    (total, item) =>
+      total + item.quantity,
     0
   );
 
@@ -282,6 +315,29 @@ export function InventarioProvider({ children }) {
     0
   );
 
+  function addProduct(product) {
+    const result = validateProductRegistration(
+      product,
+      state.products
+    );
+
+    if (!result.ok) {
+      return {
+        ok: false,
+        error: result.error
+      };
+    }
+
+    dispatch({
+      type: 'ADD_PRODUCT',
+      product: result.product
+    });
+
+    return {
+      ok: true
+    };
+  }
+
   const value = {
     products: state.products,
     cart: state.cart,
@@ -290,26 +346,43 @@ export function InventarioProvider({ children }) {
     cartTotal,
     notice: state.notice,
 
-    addProduct: (product) =>
-      dispatch({ type: 'ADD_PRODUCT', product }),
+    addProduct,
 
     changeStock: (id, amount) =>
-      dispatch({ type: 'CHANGE_STOCK', id, amount }),
+      dispatch({
+        type: 'CHANGE_STOCK',
+        id,
+        amount
+      }),
 
     addToCart: (id, quantity = 1) =>
-      dispatch({ type: 'ADD_TO_CART', id, quantity }),
+      dispatch({
+        type: 'ADD_TO_CART',
+        id,
+        quantity
+      }),
 
     removeFromCart: (id, quantity = 1) =>
-      dispatch({ type: 'REMOVE_FROM_CART', id, quantity }),
+      dispatch({
+        type: 'REMOVE_FROM_CART',
+        id,
+        quantity
+      }),
 
     clearCart: () =>
-      dispatch({ type: 'CLEAR_CART' }),
+      dispatch({
+        type: 'CLEAR_CART'
+      }),
 
     checkout: () =>
-      dispatch({ type: 'CHECKOUT' }),
+      dispatch({
+        type: 'CHECKOUT'
+      }),
 
     reset: () =>
-      dispatch({ type: 'RESET' })
+      dispatch({
+        type: 'RESET'
+      })
   };
 
   return (

@@ -1,7 +1,15 @@
 
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useInventario } from '../context/InventarioContext.jsx';
+
+import {
+  useInventario
+} from '../context/InventarioContext.jsx';
+
+import {
+  validateProductForm
+} from '../services/productValidation.js';
+
 import './AgregarProducto.css';
 
 const initialForm = {
@@ -15,7 +23,7 @@ const initialForm = {
 
 export default function AgregarProducto() {
   const navigate = useNavigate();
-  const { addProduct, products } = useInventario();
+  const { addProduct } = useInventario();
 
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState('');
@@ -34,63 +42,25 @@ export default function AgregarProducto() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const nombre = form.nombre.trim();
-    const marca = form.marca.trim();
-    const tipo = form.tipo.trim();
-    const categoria = form.categoria.trim();
-    const precio = Number(form.precio);
-    const stock = Number(form.stock);
+    const validation = validateProductForm(form);
 
-    if (!nombre || !marca || !tipo || !categoria) {
-      setError('Completa todos los campos obligatorios.');
-      return;
-    }
-
-    if (
-      form.precio.trim() === '' ||
-      !Number.isFinite(precio) ||
-      precio < 0 ||
-      !Number.isSafeInteger(precio)
-    ) {
-      setError('Ingresa un precio válido en pesos chilenos.');
-      return;
-    }
-
-    if (
-      form.stock.trim() === '' ||
-      !Number.isSafeInteger(stock) ||
-      stock < 0
-    ) {
-      setError('El stock debe ser un número entero mayor o igual a cero.');
-      return;
-    }
-
-    const duplicated = products.some(
-      (product) =>
-        product.nombre.trim().toLocaleLowerCase('es') ===
-          nombre.toLocaleLowerCase('es') &&
-        product.marca.trim().toLocaleLowerCase('es') ===
-          marca.toLocaleLowerCase('es')
-    );
-
-    if (duplicated) {
-      setError(
-        'Ya existe un producto con ese nombre y marca.'
-      );
+    if (!validation.ok) {
+      setError(validation.error);
       return;
     }
 
     const newProduct = {
       id: crypto.randomUUID(),
-      nombre,
-      marca,
-      tipo,
-      categoria,
-      precio,
-      stock
+      ...validation.product
     };
 
-    addProduct(newProduct);
+    const result = addProduct(newProduct);
+
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
     navigate('/inventario');
   }
 
@@ -104,7 +74,9 @@ export default function AgregarProducto() {
           ← Volver al inventario
         </Link>
 
-        <h1>Agregar producto</h1>
+        <h1>
+          Agregar producto
+        </h1>
       </div>
 
       <div className="panel add-product-panel">
@@ -114,7 +86,10 @@ export default function AgregarProducto() {
         >
           <div className="add-form-grid">
             <label className="add-field">
-              <span>Nombre del producto *</span>
+              <span>
+                Nombre del producto *
+              </span>
+
               <input
                 type="text"
                 name="nombre"
@@ -127,7 +102,10 @@ export default function AgregarProducto() {
             </label>
 
             <label className="add-field">
-              <span>Marca *</span>
+              <span>
+                Marca *
+              </span>
+
               <input
                 type="text"
                 name="marca"
@@ -140,7 +118,10 @@ export default function AgregarProducto() {
             </label>
 
             <label className="add-field">
-              <span>Tipo de producto *</span>
+              <span>
+                Tipo de producto *
+              </span>
+
               <input
                 type="text"
                 name="tipo"
@@ -153,7 +134,10 @@ export default function AgregarProducto() {
             </label>
 
             <label className="add-field">
-              <span>Categoría *</span>
+              <span>
+                Categoría *
+              </span>
+
               <select
                 name="categoria"
                 value={form.categoria}
@@ -163,27 +147,35 @@ export default function AgregarProducto() {
                 <option value="">
                   Selecciona una categoría
                 </option>
+
                 <option value="Abarrotes">
                   Abarrotes
                 </option>
+
                 <option value="Lácteos">
                   Lácteos
                 </option>
+
                 <option value="Frutas y verduras">
                   Frutas y verduras
                 </option>
+
                 <option value="Bebidas">
                   Bebidas
                 </option>
+
                 <option value="Limpieza">
                   Limpieza
                 </option>
+
                 <option value="Higiene personal">
                   Higiene personal
                 </option>
+
                 <option value="Congelados">
                   Congelados
                 </option>
+
                 <option value="Otros">
                   Otros
                 </option>
@@ -191,7 +183,10 @@ export default function AgregarProducto() {
             </label>
 
             <label className="add-field">
-              <span>Precio (CLP) *</span>
+              <span>
+                Precio (CLP) *
+              </span>
+
               <input
                 type="number"
                 name="precio"
@@ -205,7 +200,10 @@ export default function AgregarProducto() {
             </label>
 
             <label className="add-field">
-              <span>Stock inicial *</span>
+              <span>
+                Stock inicial *
+              </span>
+
               <input
                 type="number"
                 name="stock"
@@ -220,7 +218,10 @@ export default function AgregarProducto() {
           </div>
 
           {error && (
-            <p className="add-form-error" role="alert">
+            <p
+              className="add-form-error"
+              role="alert"
+            >
               {error}
             </p>
           )}

@@ -1,9 +1,12 @@
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
+import FilterBar from '../components/FilterBar.jsx';
 import QuantityControl from '../components/QuantityControl.jsx';
+
 import { useInventario } from '../context/InventarioContext.jsx';
+import { useProductFilters } from '../hooks/useProductFilters.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 
 import './Home.css';
@@ -16,13 +19,14 @@ export default function Home() {
     removeFromCart
   } = useInventario();
 
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('Todas');
-
-  const categories = useMemo(
-    () => [...new Set(products.map((p) => p.categoria))],
-    [products]
-  );
+  const {
+    search,
+    setSearch,
+    category,
+    setCategory,
+    categories,
+    filteredProducts
+  } = useProductFilters(products);
 
   const cartQuantities = useMemo(
     () =>
@@ -34,27 +38,6 @@ export default function Home() {
       ),
     [cartProducts]
   );
-
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      const matchesCategory =
-        category === 'Todas' ||
-        product.categoria === category;
-
-      const query = search.trim().toLocaleLowerCase('es');
-
-      const searchable = [
-        product.nombre,
-        product.marca,
-        product.tipo,
-        product.categoria
-      ]
-        .join(' ')
-        .toLocaleLowerCase('es');
-
-      return matchesCategory && searchable.includes(query);
-    });
-  }, [products, search, category]);
 
   return (
     <>
@@ -92,48 +75,14 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="filters">
-          <label className="search-field">
-            <span className="sr-only">
-              Buscar producto
-            </span>
-
-            <input
-              type="search"
-              value={search}
-              onChange={(e) =>
-                setSearch(e.target.value)
-              }
-              placeholder="Buscar producto..."
-            />
-          </label>
-
-          <label className="category-field">
-            <span className="sr-only">
-              Filtrar por categoría
-            </span>
-
-            <select
-              value={category}
-              onChange={(e) =>
-                setCategory(e.target.value)
-              }
-            >
-              <option value="Todas">
-                Todas las categorías
-              </option>
-
-              {categories.map((item) => (
-                <option
-                  key={item}
-                  value={item}
-                >
-                  {item}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+        {/* FILTROS COMPARTIDOS */}
+        <FilterBar
+          search={search}
+          onSearchChange={setSearch}
+          category={category}
+          onCategoryChange={setCategory}
+          categories={categories}
+        />
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filteredProducts.map((product) => {
