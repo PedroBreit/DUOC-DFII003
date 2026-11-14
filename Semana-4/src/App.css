@@ -1,0 +1,153 @@
+
+#root {
+  min-height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 22px 7%;
+  background: #17233b;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 25px;
+}
+
+.navbar nav a.active {
+  color: #fbbf24;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 70px 24px;
+}
+
+.inicio {
+  text-align: center;
+  padding: 110px 24px;
+}
+
+.inicio h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.boton {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 28px;
+  background: #f59e0b;
+  color: #17233b;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.categorias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-top: 35px;
+}
+
+.categoria-card {
+  background: white;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.categoria-icono {
+  font-size: 2.5rem;
+}
+
+.categoria-card h2 {
+  color: #17233b;
+}
+
+.categoria-card p {
+  color: #475569;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    justify-content: center;
+  }
+}
+
+/* Indicador de carga */
+
+.estado-carga {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 65px 20px;
+  color: #475569;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #e2e8f0;
+  border-top: 5px solid #f59e0b;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Manejo de errores */
+
+.mensaje-error {
+  margin-top: 30px;
+  padding: 30px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  color: #991b1b;
+}
+
+.mensaje-error h2 {
+  color: #991b1b;
+}
+
+.mensaje-error button {
+  margin-top: 15px;
+  padding: 12px 22px;
+  background: #b91c1c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.mensaje-error button:hover {
+  background: #991b1b;
+}
