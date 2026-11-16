@@ -3,12 +3,10 @@ let categoriasCache = null;
 let peticionActual = null;
 
 export async function obtenerCategorias() {
-  // Reutilizar datos ya consultados
   if (categoriasCache !== null) {
     return categoriasCache;
   }
 
-  // Evitar solicitudes simultáneas duplicadas
   if (peticionActual) {
     return peticionActual;
   }
@@ -16,11 +14,13 @@ export async function obtenerCategorias() {
   peticionActual = (async () => {
     const errorSimulado = sessionStorage.getItem('simularErrorAPI');
 
-    const url = errorSimulado
-    ? `/api/categorias?error=${errorSimulado}`
-    : '/api/categorias';
+    const url = `${import.meta.env.BASE_URL}api/categorias`;
 
-    const respuesta = await fetch(url);
+    const urlConsulta = errorSimulado
+      ? `${url}?error=${encodeURIComponent(errorSimulado)}`
+      : url;
+
+    const respuesta = await fetch(urlConsulta);
 
     if (!respuesta.ok) {
       throw new Error(`HTTP ${respuesta.status}`);

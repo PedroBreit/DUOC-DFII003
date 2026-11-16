@@ -2,7 +2,8 @@
 import { http, HttpResponse, delay } from 'msw';
 import { libros } from './libros';
 
-// Datos simulados de las categorías
+const apiBase = `${import.meta.env.BASE_URL}api`;
+
 export const categorias = [
   {
     id: 1,
@@ -36,12 +37,8 @@ export const categorias = [
   },
 ];
 
-// Controladores de la API REST simulada
 export const handlers = [
-
-  // GET /api/categorias
-  // Devuelve todas las categorías
-  http.get('/api/categorias', async ({ request }) => {
+  http.get(`${apiBase}/categorias`, async ({ request }) => {
     await delay(600);
 
     const url = new URL(request.url);
@@ -64,20 +61,16 @@ export const handlers = [
     return HttpResponse.json(categorias);
   }),
 
-  // GET /api/libros
-  // Devuelve todos los libros o filtra por categoría
-  http.get('/api/libros', async ({ request }) => {
+  http.get(`${apiBase}/libros`, async ({ request }) => {
     await delay(600);
 
     const url = new URL(request.url);
     const categoriaId = url.searchParams.get('categoriaId');
 
-    // Si no se indica una categoría, devuelve todos los libros
     if (categoriaId === null) {
       return HttpResponse.json(libros);
     }
 
-    // Validar el identificador de categoría
     const id = Number(categoriaId);
 
     if (!Number.isInteger(id) || id <= 0) {
@@ -87,7 +80,6 @@ export const handlers = [
       );
     }
 
-    // Comprobar que la categoría exista
     const categoriaExiste = categorias.some(
       (categoria) => categoria.id === id
     );
@@ -106,16 +98,12 @@ export const handlers = [
     return HttpResponse.json(librosFiltrados);
   }),
 
-  // GET /api/libros/:id
-  // Devuelve la información de un libro específico
-  http.get('/api/libros/:id', async ({ params }) => {
+  http.get(`${apiBase}/libros/:id`, async ({ params }) => {
     await delay(400);
 
     const id = Number(params.id);
 
-    const libro = libros.find(
-      (item) => item.id === id
-    );
+    const libro = libros.find((item) => item.id === id);
 
     if (!libro) {
       return HttpResponse.json(
@@ -126,5 +114,4 @@ export const handlers = [
 
     return HttpResponse.json(libro);
   }),
-
 ];

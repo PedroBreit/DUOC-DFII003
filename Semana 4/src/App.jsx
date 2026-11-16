@@ -1,5 +1,6 @@
+
 import {
-  BrowserRouter,
+  HashRouter,
   Routes,
   Route,
   NavLink,
@@ -98,7 +99,7 @@ function PaginaNoEncontrada() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <header className="navbar">
         <div className="navbar-contenedor">
           <NavLink to="/" className="logo">
@@ -123,6 +124,6 @@ export default function App() {
       <footer>
         Librería React · Un mundo de historias para descubrir
       </footer>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

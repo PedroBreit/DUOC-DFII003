@@ -35,12 +35,12 @@ async function consultarAPI(url) {
 
 export function obtenerLibrosPorCategoria(categoriaId) {
   return consultarAPI(
-    `/api/libros?categoriaId=${encodeURIComponent(categoriaId)}`
+    `${import.meta.env.BASE_URL}api/libros?categoriaId=${encodeURIComponent(categoriaId)}`
   );
 }
 
 export function obtenerLibroPorId(id) {
   return consultarAPI(
-    `/api/libros/${encodeURIComponent(id)}`
+    `${import.meta.env.BASE_URL}api/libros/${encodeURIComponent(id)}`
   );
 }
