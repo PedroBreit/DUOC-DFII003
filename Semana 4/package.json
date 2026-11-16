@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist --dest semana-04"
+    "deploy": "gh-pages -d dist --dest semana-04 --add"
   },
   "dependencies": {
     "msw": "^3.0.5",
