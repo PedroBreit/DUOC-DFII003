@@ -121,7 +121,6 @@ Semana-4/
 │   │   ├── icons/
 │   │   └── images/
 │   │       ├── categorias/
-│   │       ├── hero/
 │   │       └── libros/
 │   ├── components/
 │   │   └── LibroCard.jsx
@@ -314,7 +313,7 @@ Se incluyen:
 
 - Seis ilustraciones para las categorías.
 - Veinticuatro portadas ilustrativas.
-- Íconos SVG.
+- Un ícono SVG de navegación y un favicon de la librería.
 
 Las portadas son ilustraciones originales utilizadas con fines
 académicos. No corresponden a las cubiertas editoriales oficiales.
