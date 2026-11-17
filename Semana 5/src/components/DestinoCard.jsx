@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import IconoHorizonte from './IconoHorizonte';
 import IconoFlecha from './IconoFlecha';
 
-import imagenAtacama from '../assets/images/destinos/destino-atacama.png';
-import imagenCusco from '../assets/images/destinos/destino-cusco.png';
-import imagenRio from '../assets/images/destinos/destino-rio.png';
-import imagenBuenosAires from '../assets/images/destinos/destino-buenos-aires.png';
-import imagenCartagena from '../assets/images/destinos/destino-cartagena.png';
-import imagenCancun from '../assets/images/destinos/destino-cancun.png';
+import imagenAtacama from '../assets/images/destinos/destino-atacama.webp';
+import imagenCusco from '../assets/images/destinos/destino-cusco.webp';
+import imagenRio from '../assets/images/destinos/destino-rio.webp';
+import imagenBuenosAires from '../assets/images/destinos/destino-buenos-aires.webp';
+import imagenCartagena from '../assets/images/destinos/destino-cartagena.webp';
+import imagenCancun from '../assets/images/destinos/destino-cancun.webp';
 
 const imagenesDestinos = {
   1: imagenAtacama,

@@ -7,36 +7,36 @@ import ViajesDestino from '../components/ViajesDestino';
 import IconoHorizonte from '../components/IconoHorizonte';
 import IconoFlecha from '../components/IconoFlecha';
 
-import atacama from '../assets/images/destinos/destino-atacama.png';
-import cusco from '../assets/images/destinos/destino-cusco.png';
-import rio from '../assets/images/destinos/destino-rio.png';
-import buenosAires from '../assets/images/destinos/destino-buenos-aires.png';
-import cartagena from '../assets/images/destinos/destino-cartagena.png';
-import cancun from '../assets/images/destinos/destino-cancun.png';
+import atacama from '../assets/images/destinos/destino-atacama.webp';
+import cusco from '../assets/images/destinos/destino-cusco.webp';
+import rio from '../assets/images/destinos/destino-rio.webp';
+import buenosAires from '../assets/images/destinos/destino-buenos-aires.webp';
+import cartagena from '../assets/images/destinos/destino-cartagena.webp';
+import cancun from '../assets/images/destinos/destino-cancun.webp';
 
-import astronomia from '../assets/images/actividades/actividad-astronomia-atacama.png';
-import valleLuna from '../assets/images/actividades/actividad-valle-luna.png';
-import lagunas from '../assets/images/actividades/actividad-lagunas-altiplanicas.png';
+import astronomia from '../assets/images/actividades/actividad-astronomia-atacama.webp';
+import valleLuna from '../assets/images/actividades/actividad-valle-luna.webp';
+import lagunas from '../assets/images/actividades/actividad-lagunas-altiplanicas.webp';
 
-import machuPicchu from '../assets/images/actividades/actividad-machu-picchu.png';
-import valleSagrado from '../assets/images/actividades/actividad-valle-sagrado.png';
-import culturaCusco from '../assets/images/actividades/actividad-cultura-cusco.png';
+import machuPicchu from '../assets/images/actividades/actividad-machu-picchu.webp';
+import valleSagrado from '../assets/images/actividades/actividad-valle-sagrado.webp';
+import culturaCusco from '../assets/images/actividades/actividad-cultura-cusco.webp';
 
-import cristoRedentor from '../assets/images/actividades/actividad-cristo-redentor.png';
-import copacabana from '../assets/images/actividades/actividad-copacabana.png';
-import panAzucar from '../assets/images/actividades/actividad-pan-azucar.png';
+import cristoRedentor from '../assets/images/actividades/actividad-cristo-redentor.webp';
+import copacabana from '../assets/images/actividades/actividad-copacabana.webp';
+import panAzucar from '../assets/images/actividades/actividad-pan-azucar.webp';
 
-import caminito from '../assets/images/actividades/actividad-caminito.png';
-import teatroColon from '../assets/images/actividades/actividad-teatro-colon.png';
-import tango from '../assets/images/actividades/actividad-tango.png';
+import caminito from '../assets/images/actividades/actividad-caminito.webp';
+import teatroColon from '../assets/images/actividades/actividad-teatro-colon.webp';
+import tango from '../assets/images/actividades/actividad-tango.webp';
 
-import ciudadAmurallada from '../assets/images/actividades/actividad-ciudad-amurallada.png';
-import islasRosario from '../assets/images/actividades/actividad-islas-rosario.png';
-import castilloSanFelipe from '../assets/images/actividades/actividad-castillo-san-felipe.png';
+import ciudadAmurallada from '../assets/images/actividades/actividad-ciudad-amurallada.webp';
+import islasRosario from '../assets/images/actividades/actividad-islas-rosario.webp';
+import castilloSanFelipe from '../assets/images/actividades/actividad-castillo-san-felipe.webp';
 
-import chichenItza from '../assets/images/actividades/actividad-chichen-itza.png';
-import islaMujeres from '../assets/images/actividades/actividad-isla-mujeres.png';
-import cenotes from '../assets/images/actividades/actividad-cenotes.png';
+import chichenItza from '../assets/images/actividades/actividad-chichen-itza.webp';
+import islaMujeres from '../assets/images/actividades/actividad-isla-mujeres.webp';
+import cenotes from '../assets/images/actividades/actividad-cenotes.webp';
 
 import './DetalleDestino.css';
 

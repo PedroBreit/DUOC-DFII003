@@ -5,12 +5,12 @@ import { useQuery } from '@apollo/client/react';
 
 import IconoHorizonte from './IconoHorizonte';
 
-import hotelAtacama from '../assets/images/hoteles/hotel-desierto-andino.png';
-import hotelCusco from '../assets/images/hoteles/hotel-valle-imperial.png';
-import hotelRio from '../assets/images/hoteles/hotel-costa-carioca.png';
-import hotelBuenosAires from '../assets/images/hoteles/hotel-buenos-aires-centro.png';
-import hotelCartagena from '../assets/images/hoteles/hotel-cartagena-colonial.png';
-import hotelCancun from '../assets/images/hoteles/hotel-riviera-maya.png';
+import hotelAtacama from '../assets/images/hoteles/hotel-desierto-andino.webp';
+import hotelCusco from '../assets/images/hoteles/hotel-valle-imperial.webp';
+import hotelRio from '../assets/images/hoteles/hotel-costa-carioca.webp';
+import hotelBuenosAires from '../assets/images/hoteles/hotel-buenos-aires-centro.webp';
+import hotelCartagena from '../assets/images/hoteles/hotel-cartagena-colonial.webp';
+import hotelCancun from '../assets/images/hoteles/hotel-riviera-maya.webp';
 
 import './ViajesDestino.css';
 

@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import IconoFlecha from './IconoFlecha';
 
-import atacama from '../assets/images/hero/hero-atacama.png';
-import cusco from '../assets/images/hero/hero-cusco.png';
-import rio from '../assets/images/hero/hero-rio.png';
+import atacama from '../assets/images/hero/hero-atacama.webp';
+import cusco from '../assets/images/hero/hero-cusco.webp';
+import rio from '../assets/images/hero/hero-rio.webp';
 
 import './CarruselHero.css';
 
