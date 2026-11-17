@@ -7,7 +7,7 @@ import DestinoCard from '../components/DestinoCard';
 import IconoHorizonte from '../components/IconoHorizonte';
 import IconoFlecha from '../components/IconoFlecha';
 
-import imagenPortada from '../assets/images/hero/hero-cusco.png';
+import imagenPortada from '../assets/images/hero/hero-cusco.webp';
 
 import './Destinos.css';
 
