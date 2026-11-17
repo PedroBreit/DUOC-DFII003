@@ -1,0 +1,239 @@
+/* =========================================
+   HORIZONTE VIAJES - INICIO
+   ========================================= */
+
+.pagina-inicio {
+  padding-bottom: 75px;
+}
+
+/* =========================================
+   PRESENTACION
+   ========================================= */
+
+.pagina-inicio .inicio-beneficios {
+  margin: 0;
+  padding: 86px 0 90px;
+}
+
+.inicio-seccion-titulo {
+  max-width: 660px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.inicio-subtitulo {
+  display: block;
+  margin-bottom: 18px;
+  color: #a77838;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.inicio-seccion-titulo h2 {
+  margin-bottom: 17px;
+  color: #12343c;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+}
+
+.inicio-seccion-titulo p {
+  max-width: 550px;
+  margin: 0 auto;
+  color: #64747a;
+  font-size: 0.99rem;
+  line-height: 1.9;
+}
+
+/* =========================================
+   TARJETAS DE BENEFICIOS
+   ========================================= */
+
+.inicio-beneficios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.contenido-principal
+.inicio-beneficios-grid
+.inicio-beneficio {
+  padding: 36px 30px;
+  margin: 0;
+  border: 1px solid #e8e3db;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: none;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.inicio-beneficio:hover {
+  transform: translateY(-3px);
+  border-color: #d7b57d;
+}
+
+.inicio-beneficio-numero {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #ba8a48;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.65rem;
+}
+
+.inicio-beneficio h3 {
+  margin-bottom: 13px;
+  color: #12343c;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.inicio-beneficio p {
+  margin: 0;
+  color: #687a80;
+  font-size: 0.9rem;
+  line-height: 1.85;
+}
+
+/* =========================================
+   LLAMADO A LA ACCION
+   ========================================= */
+
+.pagina-inicio .inicio-cta {
+  margin: 0;
+  padding: 70px 30px;
+  border-radius: 14px;
+  background: #eae5dc;
+  text-align: center;
+}
+
+.inicio-cta .inicio-subtitulo {
+  margin-bottom: 20px;
+}
+
+.inicio-cta h2 {
+  max-width: 650px;
+  margin: 0 auto 18px;
+  color: #12343c;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+}
+
+.inicio-cta p {
+  max-width: 520px;
+  margin: 0 auto 30px;
+  color: #5d7075;
+  font-size: 0.97rem;
+  line-height: 1.85;
+}
+
+.inicio-cta-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  min-height: 49px;
+  padding: 12px 24px;
+  border-radius: 7px;
+  background: #12343c;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.inicio-cta-boton:hover {
+  background: #28535c;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.inicio-cta-boton span {
+  font-size: 1.2rem;
+}
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 900px) {
+  .inicio-beneficios-grid {
+    gap: 15px;
+  }
+
+  .contenido-principal
+  .inicio-beneficios-grid
+  .inicio-beneficio {
+    padding: 28px 22px;
+  }
+
+  .pagina-inicio .inicio-beneficios {
+    padding: 65px 0 70px;
+  }
+}
+
+/* =========================================
+   MOVIL
+   ========================================= */
+
+@media (max-width: 700px) {
+  .pagina-inicio {
+    padding-bottom: 50px;
+  }
+
+  .pagina-inicio .inicio-beneficios {
+    padding: 58px 0 60px;
+  }
+
+  .inicio-seccion-titulo {
+    margin-bottom: 32px;
+  }
+
+  .inicio-beneficios-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .contenido-principal
+  .inicio-beneficios-grid
+  .inicio-beneficio {
+    padding: 26px;
+  }
+
+  .inicio-beneficio-numero {
+    margin-bottom: 12px;
+  }
+
+  .pagina-inicio .inicio-cta {
+    padding: 50px 22px;
+  }
+
+  .inicio-cta p {
+    font-size: 0.92rem;
+  }
+}
+
+/* =========================================
+   ACCESIBILIDAD
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .inicio-beneficio,
+  .inicio-cta-boton {
+    transition: none;
+  }
+
+  .inicio-beneficio:hover,
+  .inicio-cta-boton:hover {
+    transform: none;
+  }
+}

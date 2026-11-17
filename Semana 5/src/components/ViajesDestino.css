@@ -1,0 +1,787 @@
+/* =========================================
+   HORIZONTE VIAJES
+   VUELOS Y HOTELES - ESTILOS COMPLETOS
+   ========================================= */
+
+/* CONTENEDOR PRINCIPAL */
+
+.pagina-detalle .viajes-seccion {
+  width: 100%;
+  margin-bottom: 85px;
+}
+
+/* =========================================
+   PESTANAS DE NAVEGACION
+   ========================================= */
+
+.pagina-detalle .viajes-pestanas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.contenido-principal
+.pagina-detalle
+.viajes-pestanas
+.viajes-pestana {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  min-height: 52px;
+  padding: 10px 23px;
+  border: 1px solid #dedbd3;
+  border-radius: 30px;
+  background: #ffffff;
+  color: #455d65;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.contenido-principal
+.pagina-detalle
+.viajes-pestanas
+.viajes-pestana:hover {
+  background: #f2eee6;
+  border-color: #c6b79f;
+  color: #12343c;
+}
+
+.contenido-principal
+.pagina-detalle
+.viajes-pestanas
+.viajes-pestana.activa {
+  background: #12343c;
+  border-color: #12343c;
+  color: #ffffff;
+  box-shadow: 0 5px 14px rgba(18, 52, 60, 0.12);
+}
+
+.contenido-principal
+.pagina-detalle
+.viajes-pestanas
+.viajes-pestana.activa:hover {
+  background: #20464f;
+  border-color: #20464f;
+  color: #ffffff;
+}
+
+.viajes-pestana-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
+}
+
+.viajes-pestana-icono img {
+  display: block;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+.viajes-pestana-cantidad {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 50px;
+  background: #eee9e1;
+  color: #12343c;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.viajes-pestana.activa .viajes-pestana-cantidad {
+  background: #e5b56f;
+  color: #12343c;
+}
+
+/* =========================================
+   PANEL Y REJILLA DE RESULTADOS
+   ========================================= */
+
+.pagina-detalle .viajes-panel {
+  width: 100%;
+}
+
+.pagina-detalle .viajes-resultados-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 24px;
+}
+
+.contenido-principal
+.pagina-detalle
+.viajes-resultados-grid
+.viaje-vuelo-card,
+.contenido-principal
+.pagina-detalle
+.viajes-resultados-grid
+.viaje-hotel-card {
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #e5e0d8;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 22px rgba(18, 52, 60, 0.045);
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.contenido-principal
+.pagina-detalle
+.viajes-resultados-grid
+.viaje-vuelo-card:hover,
+.contenido-principal
+.pagina-detalle
+.viajes-resultados-grid
+.viaje-hotel-card:hover {
+  border-color: #d6c9b5;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(18, 52, 60, 0.09);
+}
+
+/* =========================================
+   ETIQUETAS COMPARTIDAS
+   ========================================= */
+
+.pagina-detalle .viaje-mini-etiqueta {
+  display: block;
+  margin-bottom: 6px;
+  color: #aa7c40;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  line-height: 1.4;
+}
+
+.pagina-detalle .viaje-precio-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #859295;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.pagina-detalle .viaje-precio {
+  margin: 0;
+  color: #12343c;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================
+   TARJETAS DE VUELOS
+   ========================================= */
+
+.contenido-principal
+.pagina-detalle
+.viajes-resultados-grid
+.viaje-vuelo-card {
+  display: flex;
+  flex-direction: column;
+  padding: 27px;
+}
+
+.pagina-detalle .viaje-vuelo-superior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 26px;
+}
+
+.pagina-detalle .viaje-vuelo-aerolinea {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.pagina-detalle .viaje-vuelo-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 57px;
+  height: 57px;
+  flex-shrink: 0;
+  border: 1px solid #e8e0d5;
+  border-radius: 13px;
+  background: #f5f0e8;
+}
+
+.pagina-detalle .viaje-vuelo-icono img {
+  display: block;
+  width: 41px;
+  height: 41px;
+  object-fit: contain;
+}
+
+.pagina-detalle .viaje-vuelo-identidad {
+  min-width: 0;
+}
+
+.pagina-detalle .viaje-vuelo-aerolinea h3 {
+  margin: 0;
+  color: #12343c;
+  font-size: 1.09rem;
+  font-weight: 750;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.pagina-detalle .viaje-vuelo-etiqueta {
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border: 1px solid #e3ebe7;
+  border-radius: 6px;
+  background: #edf3ef;
+  color: #40645b;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* RUTA DEL VUELO */
+
+.pagina-detalle .viaje-vuelo-ruta {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    72px
+    minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 22px 16px;
+  border: 1px solid #f0ece5;
+  border-radius: 11px;
+  background: #f9f7f2;
+}
+
+.pagina-detalle .viaje-vuelo-origen,
+.pagina-detalle .viaje-vuelo-destino {
+  min-width: 0;
+}
+
+.pagina-detalle
+.viaje-vuelo-origen > span:first-child,
+.pagina-detalle
+.viaje-vuelo-destino > span:first-child {
+  display: block;
+  margin-bottom: 7px;
+  color: #869397;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.pagina-detalle .viaje-vuelo-origen strong,
+.pagina-detalle .viaje-vuelo-destino strong {
+  display: block;
+  color: #12343c;
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.pagina-detalle .viaje-vuelo-trayecto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.pagina-detalle .viaje-vuelo-trayecto img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.pagina-detalle .viaje-vuelo-linea {
+  display: block;
+  width: 13px;
+  height: 1px;
+  flex-shrink: 1;
+  background: #c8ae81;
+}
+
+/* FECHA DEL VUELO */
+
+.pagina-detalle .viaje-vuelo-fecha {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 19px 0 23px;
+  color: #667b80;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.pagina-detalle .viaje-vuelo-fecha svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #ad8046;
+}
+
+/* PRECIO Y DISPONIBILIDAD */
+
+.pagina-detalle .viaje-vuelo-inferior {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: auto;
+  padding-top: 21px;
+  border-top: 1px solid #ece8e0;
+}
+
+.pagina-detalle .viaje-vuelo-precio {
+  min-width: 0;
+}
+
+/* =========================================
+   DISPONIBILIDAD
+   ========================================= */
+
+.pagina-detalle .viaje-disponibilidad {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border-radius: 50px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.pagina-detalle .viaje-disponibilidad.disponible {
+  background: #e8f3ec;
+  color: #24623e;
+}
+
+.pagina-detalle .viaje-disponibilidad.agotado {
+  background: #f9e9e7;
+  color: #a34343;
+}
+
+.pagina-detalle .viaje-disponibilidad-punto {
+  display: block;
+  width: 7px;
+  height: 7px;
+  min-width: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* =========================================
+   TARJETAS DE HOTELES
+   ========================================= */
+
+.contenido-principal
+.pagina-detalle
+.viajes-resultados-grid
+.viaje-hotel-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.pagina-detalle .viaje-hotel-imagen {
+  position: relative;
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
+  background: #e3e9e4;
+}
+
+.pagina-detalle .viaje-hotel-imagen > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.pagina-detalle
+.viaje-hotel-card:hover
+.viaje-hotel-imagen > img {
+  transform: scale(1.04);
+}
+
+/* DISTINTIVO SOBRE FOTOGRAFIA */
+
+.pagina-detalle .viaje-hotel-distintivo {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #12343c;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.pagina-detalle .viaje-hotel-distintivo img {
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+}
+
+.pagina-detalle .viaje-hotel-distintivo > span {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+}
+
+/* CONTENIDO DEL HOTEL */
+
+.pagina-detalle .viaje-hotel-contenido {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 26px;
+}
+
+.pagina-detalle .viaje-hotel-contenido h3 {
+  margin: 5px 0 13px;
+  color: #12343c;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.pagina-detalle .viaje-hotel-ubicacion {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0 0 25px;
+  color: #667b80;
+  font-size: 0.87rem;
+  line-height: 1.6;
+}
+
+.pagina-detalle .viaje-hotel-ubicacion svg {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin-top: 3px;
+  color: #b18449;
+}
+
+.pagina-detalle .viaje-hotel-inferior {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: auto;
+  padding-top: 22px;
+  border-top: 1px solid #ece8e0;
+}
+
+/* =========================================
+   ESTADOS DE CONSULTA GRAPHQL
+   ========================================= */
+
+.pagina-detalle .viajes-estado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 230px;
+  padding: 45px 25px;
+  border: 1px solid #e7e1d8;
+  border-radius: 13px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.pagina-detalle .viajes-estado h3 {
+  margin: 15px 0 12px;
+  color: #12343c;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.pagina-detalle .viajes-estado p {
+  max-width: 480px;
+  margin: 0;
+  color: #687a80;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.contenido-principal
+.pagina-detalle
+.viajes-estado
+.viajes-reintentar {
+  margin-top: 20px;
+  padding: 11px 20px;
+  border: 1px solid #12343c;
+  border-radius: 7px;
+  background: #12343c;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.contenido-principal
+.pagina-detalle
+.viajes-estado
+.viajes-reintentar:hover {
+  background: #28535c;
+}
+
+/* =========================================
+   NOTA ACADEMICA
+   ========================================= */
+
+.pagina-detalle .viajes-nota {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 28px;
+  padding: 17px 20px;
+  border: 1px solid #e7e1d8;
+  border-radius: 10px;
+  background: #f1ede6;
+}
+
+.pagina-detalle .viajes-nota-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  color: #a77c43;
+}
+
+.pagina-detalle .viajes-nota-icono svg {
+  width: 19px;
+  height: 19px;
+}
+
+.pagina-detalle .viajes-nota p {
+  margin: 0;
+  color: #63777d;
+  font-size: 0.8rem;
+  line-height: 1.75;
+}
+
+/* =========================================
+   TABLETS
+   ========================================= */
+
+@media (max-width: 1000px) {
+  .pagina-detalle .viajes-resultados-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-detalle .viaje-vuelo-ruta {
+    grid-template-columns:
+      minmax(0, 1fr)
+      100px
+      minmax(0, 1fr);
+  }
+
+  .pagina-detalle .viaje-vuelo-trayecto {
+    gap: 9px;
+  }
+
+  .pagina-detalle .viaje-vuelo-linea {
+    width: 22px;
+  }
+}
+
+/* =========================================
+   MOVILES
+   ========================================= */
+
+@media (max-width: 640px) {
+  .pagina-detalle .viajes-seccion {
+    margin-bottom: 60px;
+  }
+
+  .pagina-detalle .viajes-pestanas {
+    gap: 9px;
+  }
+
+  .contenido-principal
+  .pagina-detalle
+  .viajes-pestanas
+  .viajes-pestana {
+    min-height: 47px;
+    padding: 9px 14px;
+    gap: 8px;
+    font-size: 0.84rem;
+  }
+
+  .viajes-pestana-icono,
+  .viajes-pestana-icono img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .pagina-detalle .viajes-resultados-grid {
+    grid-template-columns: 1fr;
+    gap: 19px;
+  }
+
+  .contenido-principal
+  .pagina-detalle
+  .viajes-resultados-grid
+  .viaje-vuelo-card {
+    padding: 20px;
+  }
+
+  .pagina-detalle .viaje-vuelo-superior {
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .pagina-detalle .viaje-vuelo-icono {
+    width: 48px;
+    height: 48px;
+  }
+
+  .pagina-detalle .viaje-vuelo-icono img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .pagina-detalle .viaje-vuelo-aerolinea {
+    gap: 10px;
+  }
+
+  .pagina-detalle .viaje-vuelo-aerolinea h3 {
+    font-size: 1rem;
+  }
+
+  .pagina-detalle .viaje-vuelo-ruta {
+    grid-template-columns:
+      minmax(0, 1fr)
+      45px
+      minmax(0, 1fr);
+    gap: 7px;
+    padding: 18px 10px;
+  }
+
+  .pagina-detalle .viaje-vuelo-linea {
+    display: none;
+  }
+
+  .pagina-detalle .viaje-vuelo-trayecto img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .pagina-detalle .viaje-vuelo-origen strong,
+  .pagina-detalle .viaje-vuelo-destino strong {
+    font-size: 0.79rem;
+  }
+
+  .pagina-detalle .viaje-vuelo-inferior,
+  .pagina-detalle .viaje-hotel-inferior {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .pagina-detalle .viaje-hotel-imagen {
+    height: 225px;
+  }
+
+  .pagina-detalle .viaje-hotel-contenido {
+    padding: 21px;
+  }
+
+  .pagina-detalle .viaje-hotel-contenido h3 {
+    font-size: 1.35rem;
+  }
+
+  .pagina-detalle .viajes-nota {
+    padding: 16px;
+  }
+}
+
+/* =========================================
+   MOVILES PEQUENOS
+   ========================================= */
+
+@media (max-width: 380px) {
+  .pagina-detalle .viaje-vuelo-inferior,
+  .pagina-detalle .viaje-hotel-inferior {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pagina-detalle .viaje-vuelo-etiqueta {
+    padding: 6px 8px;
+    font-size: 0.61rem;
+  }
+
+  .pagina-detalle .viajes-nota p {
+    font-size: 0.75rem;
+  }
+}
+
+/* =========================================
+   ACCESIBILIDAD
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .pagina-detalle .viajes-pestana,
+  .pagina-detalle .viaje-vuelo-card,
+  .pagina-detalle .viaje-hotel-card,
+  .pagina-detalle .viaje-hotel-imagen img,
+  .pagina-detalle .viajes-reintentar {
+    transition: none !important;
+  }
+
+  .pagina-detalle .viaje-vuelo-card:hover,
+  .pagina-detalle .viaje-hotel-card:hover,
+  .pagina-detalle
+  .viaje-hotel-card:hover
+  .viaje-hotel-imagen img {
+    transform: none !important;
+  }
+}

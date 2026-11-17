@@ -1,0 +1,20 @@
+/* HORIZONTE VIAJES - ICONOS DE FLECHAS */
+
+.icono-flecha {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.icono-flecha-anterior,
+.icono-flecha-siguiente {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icono-flecha {
+    transition: none;
+  }
+}

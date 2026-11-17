@@ -1,0 +1,448 @@
+/* =========================================
+   HORIZONTE VIAJES
+   CARRUSEL PRINCIPAL - VERSION MINIMALISTA
+   ========================================= */
+
+/* CONTENEDOR PRINCIPAL */
+
+.pagina-inicio .hv-carousel {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: clamp(440px, 52vw, 610px);
+  margin: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #12343c;
+  color: #ffffff;
+}
+
+/* =========================================
+   FOTOGRAFIAS
+   ========================================= */
+
+.hv-carousel-imagenes,
+.hv-carousel-imagen,
+.hv-carousel-sombra {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hv-carousel-imagenes {
+  z-index: -2;
+}
+
+.hv-carousel-imagen {
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.035);
+  transition:
+    opacity 1s ease,
+    transform 6.5s ease;
+}
+
+.hv-carousel-imagen.activa {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* DEGRADADO PARA LEGIBILIDAD */
+
+.hv-carousel-sombra {
+  z-index: -1;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 26, 34, 0.82) 0%,
+      rgba(5, 26, 34, 0.55) 40%,
+      rgba(5, 26, 34, 0.08) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(5, 26, 34, 0.3),
+      transparent 45%
+    );
+}
+
+/* =========================================
+   CONTENIDO
+   ========================================= */
+
+.hv-carousel-contenido {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 65px 105px 90px;
+}
+
+.hv-carousel-textos {
+  max-width: 630px;
+  animation: hv-entrada 0.6s ease both;
+}
+
+/* ETIQUETA DEL DESTINO */
+
+.hv-carousel-etiqueta {
+  display: block;
+  margin-bottom: 19px;
+  color: #f1c88c;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 2.7px;
+  text-transform: uppercase;
+}
+
+/* TITULO */
+
+.hv-carousel h1 {
+  max-width: 590px;
+  margin: 0 0 22px;
+  color: #ffffff;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.5rem, 4.4vw, 4.1rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -1.1px;
+  text-wrap: balance;
+}
+
+/* DESCRIPCION */
+
+.hv-carousel-descripcion {
+  max-width: 450px;
+  margin: 0 0 32px;
+  color: #f0f1f1;
+  font-size: 1.03rem;
+  line-height: 1.8;
+}
+
+/* =========================================
+   BOTON PRINCIPAL
+   ========================================= */
+
+.hv-carousel-boton-principal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 49px;
+  padding: 12px 22px;
+  border-radius: 7px;
+  background: #e5b56f;
+  color: #12343c;
+  font-size: 0.9rem;
+  font-weight: 800;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.hv-carousel-boton-principal:hover {
+  background: #f5d39e;
+  color: #12343c;
+  transform: translateY(-2px);
+}
+
+.hv-carousel-boton-principal .icono-flecha {
+  width: 18px;
+  height: 18px;
+}
+
+/* =========================================
+   FLECHAS LATERALES
+   ========================================= */
+
+.contenido-principal .hv-carousel-control {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+
+  transform: translateY(-50%);
+
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+
+  background: rgba(12, 39, 48, 0.25);
+  color: #ffffff;
+
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.contenido-principal .hv-carousel-control:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #ffffff;
+}
+
+.contenido-principal .hv-carousel-anterior {
+  left: 20px;
+}
+
+.contenido-principal .hv-carousel-siguiente {
+  right: 20px;
+}
+
+/* SVG DE NAVEGACION */
+
+.hv-carousel-control .icono-flecha {
+  display: block;
+  width: 22px;
+  height: 22px;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+/*
+  IconoFlecha.jsx ya utiliza dos trazados
+  diferentes: anterior y siguiente.
+
+  No rotamos los SVG para evitar invertir
+  accidentalmente la direccion.
+*/
+
+.hv-carousel-control .icono-flecha-anterior,
+.hv-carousel-control .icono-flecha-siguiente {
+  transform: none;
+}
+
+/* Movimiento sutil de los SVG */
+
+.hv-carousel-anterior:hover .icono-flecha-anterior {
+  transform: translateX(-2px);
+}
+
+.hv-carousel-siguiente:hover .icono-flecha-siguiente {
+  transform: translateX(2px);
+}
+
+/* =========================================
+   INDICADORES INFERIORES
+   ========================================= */
+
+.hv-carousel-indicadores {
+  position: absolute;
+  z-index: 5;
+  bottom: 28px;
+  left: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  transform: translateX(-50%);
+}
+
+.contenido-principal .hv-carousel-indicador {
+  width: 30px;
+  height: 5px;
+  min-height: 5px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.52);
+  cursor: pointer;
+
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
+
+.contenido-principal .hv-carousel-indicador.activo {
+  width: 54px;
+  background: #e5b56f;
+}
+
+.contenido-principal .hv-carousel-indicador:hover {
+  background: #f0d09b;
+}
+
+/* =========================================
+   ACCESIBILIDAD
+   ========================================= */
+
+.hv-carousel a:focus-visible,
+.hv-carousel button:focus-visible {
+  outline: 3px solid #f1c88c;
+  outline-offset: 4px;
+}
+
+/* =========================================
+   ANIMACION DEL CONTENIDO
+   ========================================= */
+
+@keyframes hv-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   TABLETS
+   ========================================= */
+
+@media (max-width: 900px) {
+  .hv-carousel-contenido {
+    padding: 55px 82px 85px;
+  }
+
+  .hv-carousel h1 {
+    max-width: 540px;
+    font-size: clamp(2.4rem, 4.6vw, 3.5rem);
+  }
+
+  .hv-carousel-descripcion {
+    font-size: 0.98rem;
+  }
+}
+
+/* =========================================
+   MOVILES
+   ========================================= */
+
+@media (max-width: 640px) {
+  .pagina-inicio .hv-carousel {
+    height: 550px;
+    border-radius: 12px;
+  }
+
+  .hv-carousel-contenido {
+    padding: 55px 52px 95px;
+  }
+
+  .hv-carousel-textos {
+    max-width: 100%;
+  }
+
+  .hv-carousel-etiqueta {
+    margin-bottom: 16px;
+    font-size: 0.62rem;
+    letter-spacing: 1.5px;
+  }
+
+  .hv-carousel h1 {
+    max-width: 100%;
+    margin-bottom: 19px;
+    font-size: clamp(2rem, 7.5vw, 2.8rem);
+    line-height: 1.13;
+    letter-spacing: -0.7px;
+  }
+
+  .hv-carousel-descripcion {
+    margin-bottom: 24px;
+    font-size: 0.91rem;
+    line-height: 1.65;
+  }
+
+  .hv-carousel-boton-principal {
+    min-height: 45px;
+    padding: 10px 14px;
+    gap: 12px;
+    font-size: 0.81rem;
+  }
+
+  .hv-carousel-sombra {
+    background: linear-gradient(
+      90deg,
+      rgba(5, 26, 34, 0.86),
+      rgba(5, 26, 34, 0.45)
+    );
+  }
+
+  .contenido-principal .hv-carousel-control {
+    width: 34px;
+    height: 34px;
+    min-height: 34px;
+  }
+
+  .contenido-principal .hv-carousel-anterior {
+    left: 8px;
+  }
+
+  .contenido-principal .hv-carousel-siguiente {
+    right: 8px;
+  }
+
+  .hv-carousel-control .icono-flecha {
+    width: 19px;
+    height: 19px;
+  }
+
+  .hv-carousel-indicadores {
+    bottom: 23px;
+  }
+}
+
+/* =========================================
+   MOVILES PEQUENOS
+   ========================================= */
+
+@media (max-width: 380px) {
+  .pagina-inicio .hv-carousel {
+    height: 600px;
+  }
+
+  .hv-carousel-contenido {
+    padding-inline: 47px;
+  }
+
+  .hv-carousel h1 {
+    font-size: 2rem;
+  }
+
+  .hv-carousel-etiqueta {
+    letter-spacing: 1px;
+  }
+}
+
+/* =========================================
+   MOVIMIENTO REDUCIDO
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hv-carousel-imagen,
+  .hv-carousel-textos,
+  .hv-carousel-boton-principal,
+  .hv-carousel-indicador,
+  .hv-carousel-control,
+  .hv-carousel-control .icono-flecha {
+    animation: none;
+    transition: none;
+  }
+
+  .hv-carousel-imagen,
+  .hv-carousel-imagen.activa {
+    transform: none;
+  }
+
+  .hv-carousel-anterior:hover .icono-flecha-anterior,
+  .hv-carousel-siguiente:hover .icono-flecha-siguiente {
+    transform: none;
+  }
+}
